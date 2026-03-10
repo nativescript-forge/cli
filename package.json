@@ -4,7 +4,7 @@
   "description": "NativeScript Forge in your terminal, an opinionated interactive wrapper around the NativeScript CLI",
   "main": "dist/index.js",
   "bin": {
-    "nsf": "./bin/nsf"
+    "nsf": "bin/nsf"
   },
   "scripts": {
     "dev": "ts-node src/index.ts",
@@ -20,5 +20,24 @@
     "@types/node": "^20.11.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nativescript-forge/cli.git"
+  },
+  "keywords": [
+    "nativescript",
+    "forge",
+    "nativescript",
+    "forge",
+    "cli",
+    "nativescript",
+    "cli"
+  ],
+  "author": "Kang Cahya",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nativescript-forge/cli/issues"
+  },
+  "homepage": "https://github.com/nativescript-forge/cli#readme"
 }
