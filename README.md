@@ -11,10 +11,6 @@ An opinionated interactive wrapper around the NativeScript CLI, designed to stre
 
 NativeScript Forge CLI (`nsf`) is built on top of the standard NativeScript CLI to provide a more guided and interactive experience for common tasks, starting with project creation.
 
-## Demo
-
-![nsf create demo](assets/images/nsf-create.png)
-
 ## Installation
 
 ```bash
@@ -30,6 +26,8 @@ The core feature of `nsf` is the interactive creation process:
 ```bash
 nsf create
 ```
+
+![nsf create demo](assets/images/nsf-create.png)
 
 Simply follow the prompts to:
 
