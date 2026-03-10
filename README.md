@@ -1,5 +1,5 @@
 # CLI
-NativeScript Forge, right in your terminal
+NativeScript Forge in your terminal, an opinionated interactive wrapper around the NativeScript CLI
 
 
 ## Option Tools
