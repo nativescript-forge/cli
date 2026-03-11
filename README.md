@@ -14,7 +14,7 @@ NativeScript Forge CLI (`nsf`) is built on top of the standard NativeScript CLI 
 ## Installation
 
 ```bash
-npm install -g nativescript-forge/cli
+npm install -g @nativescript-forge/cli
 ```
 
 ## Usage
