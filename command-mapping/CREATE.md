@@ -1,4 +1,14 @@
-Mobile (Android/iOS)
+# CREATE Command Mapping
+
+Mapping of `nsf create` interactive options to standard NativeScript CLI (`ns`) templates.
+
+> [!NOTE]
+> Mapping command create bersumber dari https://docs.nativescript.org/guide/creating-a-project
+
+## Templates
+
+### Mobile (Android/iOS)
+
 
 - JavaScript
   - @nativescript/template-blank

@@ -2,6 +2,9 @@
 
 Mapping of `nsf run` interactive options to standard NativeScript CLI (`ns`) flags.
 
+> [!NOTE]
+> Mapping command run bersumber dari `ns run --help`
+
 ## Platforms
 - **Android**: `ns run android`
 - **iOS**: `ns run ios`
