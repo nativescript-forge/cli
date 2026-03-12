@@ -1,6 +1,7 @@
 <div>
-<img width="200" src="assets/images/nsf.png" />
+  <img src="https://raw.githubusercontent.com/nativescript-forge/gui-app/main/public/nsf-dark-io.svg" alt="NativeScript Forge Icon" width="128" />
 </div>
+<br/>
 
 # NativeScript Forge CLI (nsf)
 
@@ -27,6 +28,5 @@ For detailed command descriptions, options, and advanced usage, see: **[Full Com
 ---
 
 <div align="center">
-  <img src="https://raw.githubusercontent.com/nativescript-forge/gui-app/main/public/nsf-dark-io.svg" alt="NativeScript Forge Icon" width="48" />
   <p><i>Built with ❤️ for the NativeScript Community</i></p>
 </div>
