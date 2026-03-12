@@ -1,4 +1,6 @@
-![NativeScript Forge CLI Help Interface](assets/images/nsf.png)
+<div>
+<img width="200" src="assets/images/nsf.png" />
+</div>
 
 # NativeScript Forge CLI (nsf)
 
