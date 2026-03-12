@@ -2,6 +2,11 @@
 
 Detailed documentation for all NativeScript Forge CLI (`nsf`) commands.
 
+> [!NOTE]
+> **NativeScript CLI Fallback**
+> You can run basic commands available in `ns` using `nsf`. If a command is not natively implemented in `nsf`, it will automatically delegate to the NativeScript CLI (`ns`). If the command is not supported by either `nsf` or `ns`, an error will occur.
+
+
 ## Table of Contents
 - [nsf create](#nsf-create)
 - [nsf run](#nsf-run)
