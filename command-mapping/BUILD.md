@@ -4,8 +4,8 @@ Mapping of `nsf build` interactive options to standard NativeScript CLI (`ns`) f
 
 ## Platforms
 - **Android**: `ns build android`
-- **iOS**: `ns build ios`
-- **VisionOS**: `ns build visionos`
+- ~~**iOS**: `ns build ios`~~
+- ~~**VisionOS**: `ns build visionos`~~
 
 ## Options Mapping
 
