@@ -1,6 +1,7 @@
 import { Command } from "commander";
 import { createCommand } from "./commands/create";
 import pc from "picocolors";
+import { spawn } from "child_process";
 
 const program = new Command();
 
@@ -24,11 +25,16 @@ program.addHelpText(
 );
 
 program
-  .command("create")
+  .command("create [appName]")
   .description("Create a new NativeScript project with interactive prompts")
-  .action(async () => {
-    await createCommand();
+  .action(async (appName) => {
+    await createCommand(appName);
   });
+
+program.on("command:*", (operands) => {
+  const args = [...operands, ...program.args.slice(operands.length)];
+  spawn("ns", args, { stdio: "inherit", shell: true });
+});
 
 program.configureHelp({
   // commandUsage: (command) => pc.yellow("Usage: ") + command.usage(),

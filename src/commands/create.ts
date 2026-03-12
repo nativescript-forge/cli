@@ -12,16 +12,20 @@ import { spawn } from "child_process";
 import pc from "picocolors";
 import { TEMPLATE_MAPPING } from "../utils/constants";
 
-export async function createCommand() {
+export async function createCommand(passedAppName?: string) {
   intro(pc.bgCyan(pc.black(" nsf create ")));
 
-  const appName = await text({
-    message: "What is your application name?",
-    placeholder: "my-cool-app",
-    validate(value: string) {
-      if (value.length === 0) return `Value is required!`;
-    },
-  });
+  let appName = passedAppName;
+
+  if (!appName) {
+    appName = (await text({
+      message: "What is your application name?",
+      placeholder: "my-cool-app",
+      validate(value: string) {
+        if (value.length === 0) return `Value is required!`;
+      },
+    })) as string;
+  }
 
   if (isCancel(appName)) {
     cancel("Operation cancelled.");

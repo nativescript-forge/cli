@@ -1,6 +1,6 @@
 {
   "name": "@nativescript-forge/cli",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "NativeScript Forge in your terminal, an opinionated interactive wrapper around the NativeScript CLI",
   "main": "dist/index.js",
   "bin": {
@@ -36,6 +36,9 @@
   ],
   "author": "Kang Cahya",
   "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
   "bugs": {
     "url": "https://github.com/nativescript-forge/cli/issues"
   },
