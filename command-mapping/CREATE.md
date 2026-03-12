@@ -3,7 +3,7 @@
 Mapping of `nsf create` interactive options to standard NativeScript CLI (`ns`) templates.
 
 > [!NOTE]
-> Mapping command create bersumber dari https://docs.nativescript.org/guide/creating-a-project
+> Create command mapping is based on https://docs.nativescript.org/guide/creating-a-project
 
 ## Templates
 

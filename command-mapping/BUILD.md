@@ -3,7 +3,7 @@
 Mapping of `nsf build` interactive options to standard NativeScript CLI (`ns`) flags.
 
 > [!NOTE]
-> Mapping command build bersumber dari `ns build --help`
+> Build command mapping is based on `ns build --help`
 
 ## Platforms
 - **Android**: `ns build android`
