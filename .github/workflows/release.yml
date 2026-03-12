@@ -18,7 +18,18 @@ jobs:
         with:
           node-version: '20'
           registry-url: 'https://registry.npmjs.org'
-          scope: '@nativescript-forge'
+          always-auth: true
+
+      - name: Verify NPM Token Presence
+        run: |
+          if [ -z "$NODE_AUTH_TOKEN" ]; then
+            echo "Error: NPM_TOKEN is missing or empty"
+            exit 1
+          else
+            echo "NPM_TOKEN is present"
+          fi
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Install dependencies
         run: npm install
