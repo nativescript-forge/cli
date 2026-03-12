@@ -12,8 +12,11 @@ import { spawn } from "child_process";
 import pc from "picocolors";
 import { TEMPLATE_MAPPING } from "../utils/constants";
 
+const FORGE_COLOR = (text: string) => `\x1b[38;2;249;168;37m${text}\x1b[0m`;
+const BG_FORGE_COLOR = (text: string) => `\x1b[48;2;249;168;37m\x1b[30m${text}\x1b[0m`;
+
 export async function createCommand(passedAppName?: string) {
-  intro(pc.bgCyan(pc.black(" nsf create ")));
+  intro(BG_FORGE_COLOR(" nsf create "));
 
   let appName = passedAppName;
 
@@ -126,7 +129,7 @@ export async function createCommand(passedAppName?: string) {
       "Success",
     );
 
-    outro(pc.bgCyan(pc.black(" NativeScript Forge CLI! ")));
+    outro(BG_FORGE_COLOR(" NativeScript Forge CLI! "));
   } catch (error: any) {
     s.stop("Failed to create application.");
     cancel(`Error: ${error.message}`);

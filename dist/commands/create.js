@@ -8,16 +8,21 @@ const prompts_1 = require("@clack/prompts");
 const child_process_1 = require("child_process");
 const picocolors_1 = __importDefault(require("picocolors"));
 const constants_1 = require("../utils/constants");
-async function createCommand() {
-    (0, prompts_1.intro)(picocolors_1.default.bgCyan(picocolors_1.default.black(" nsf create ")));
-    const appName = await (0, prompts_1.text)({
-        message: "What is your application name?",
-        placeholder: "my-cool-app",
-        validate(value) {
-            if (value.length === 0)
-                return `Value is required!`;
-        },
-    });
+const FORGE_COLOR = (text) => `\x1b[38;2;249;168;37m${text}\x1b[0m`;
+const BG_FORGE_COLOR = (text) => `\x1b[48;2;249;168;37m\x1b[30m${text}\x1b[0m`;
+async function createCommand(passedAppName) {
+    (0, prompts_1.intro)(BG_FORGE_COLOR(" nsf create "));
+    let appName = passedAppName;
+    if (!appName) {
+        appName = (await (0, prompts_1.text)({
+            message: "What is your application name?",
+            placeholder: "my-cool-app",
+            validate(value) {
+                if (value.length === 0)
+                    return `Value is required!`;
+            },
+        }));
+    }
     if ((0, prompts_1.isCancel)(appName)) {
         (0, prompts_1.cancel)("Operation cancelled.");
         process.exit(0);
@@ -95,7 +100,7 @@ async function createCommand() {
             `${picocolors_1.default.white("Next steps:")}\n` +
             picocolors_1.default.cyan(`  cd ${appName}\n`) +
             picocolors_1.default.cyan(`  ns run android|ios|visionos`), "Success");
-        (0, prompts_1.outro)(picocolors_1.default.bgCyan(picocolors_1.default.black(" NativeScript Forge CLI! ")));
+        (0, prompts_1.outro)(BG_FORGE_COLOR(" NativeScript Forge CLI! "));
     }
     catch (error) {
         s.stop("Failed to create application.");

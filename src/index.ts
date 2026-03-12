@@ -1,5 +1,6 @@
 import { Command } from "commander";
 import { createCommand } from "./commands/create";
+import { runCommand } from "./commands/run";
 import pc from "picocolors";
 import { spawn } from "child_process";
 
@@ -13,15 +14,17 @@ const ASCII_ART = `
  |_| \\_|____/ |_|    
 `;
 
+const FORGE_COLOR = (text: string) => `\x1b[38;2;249;168;37m${text}\x1b[0m`;
+
 program
   .name("nsf")
   .description("An opinionated interactive wrapper around the NativeScript CLI")
   .version("1.0.0");
 
-program.addHelpText("before", pc.cyan(ASCII_ART));
+program.addHelpText("before", FORGE_COLOR(ASCII_ART));
 program.addHelpText(
   "before",
-  pc.white(" NativeScript Forge CLI ") + pc.green("version 1.0.0\n"),
+  pc.white(" NativeScript Forge CLI ") + FORGE_COLOR("version 1.0.0\n"),
 );
 
 program
@@ -29,6 +32,13 @@ program
   .description("Create a new NativeScript project with interactive prompts")
   .action(async (appName) => {
     await createCommand(appName);
+  });
+
+program
+  .command("run")
+  .description("Run the project on a device or emulator")
+  .action(async () => {
+    await runCommand();
   });
 
 program.on("command:*", (operands) => {
