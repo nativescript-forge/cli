@@ -16,15 +16,17 @@ const ASCII_ART = `
 
 const FORGE_COLOR = (text: string) => `\x1b[38;2;249;168;37m${text}\x1b[0m`;
 
+const pkg = require("../package.json");
+
 program
   .name("nsf")
   .description("An opinionated interactive wrapper around the NativeScript CLI")
-  .version("1.0.0");
+  .version(pkg.version);
 
 program.addHelpText("before", FORGE_COLOR(ASCII_ART));
 program.addHelpText(
   "before",
-  pc.white(" NativeScript Forge CLI ") + FORGE_COLOR("version 1.0.0\n"),
+  pc.white(" NativeScript Forge CLI ") + FORGE_COLOR(`version ${pkg.version}\n`),
 );
 
 program
