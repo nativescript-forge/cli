@@ -20,8 +20,7 @@ npm install -g @nativescript-forge/cli
 
 ## Documentation
 
-For detailed command descriptions, options, and advanced usage, see:
-👉 **[Full Commands Documentation](COMMANDS.md)**
+For detailed command descriptions, options, and advanced usage, see: **[Full Commands Documentation](COMMANDS.md)**
 
 ---
 
