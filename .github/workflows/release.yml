@@ -3,8 +3,8 @@ name: Release to NPM
 on:
   push:
     tags:
-      - 'v*'
-      - '[0-9]*'
+      - "v*"
+      - "[0-9]*"
 
 jobs:
   release:
@@ -16,8 +16,8 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          registry-url: 'https://registry.npmjs.org'
+          node-version: "20"
+          registry-url: "https://registry.npmjs.org"
           always-auth: true
 
       - name: Verify NPM Token Presence
@@ -61,7 +61,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ github.ref_name }}
-          name: Release ${{ github.ref_name }}
+          name: v${{ github.ref_name }}
           draft: false
           prerelease: ${{ contains(steps.npm_tag.outputs.tag, 'alpha') || contains(steps.npm_tag.outputs.tag, 'beta') || contains(steps.npm_tag.outputs.tag, 'rc') }}
           generate_release_notes: true
