@@ -1,7 +1,6 @@
 <div>
   <img src="https://raw.githubusercontent.com/nativescript-forge/gui-app/main/public/nsf-dark-io.svg" alt="NativeScript Forge Icon" width="128" />
 </div>
-<br/>
 
 # NativeScript Forge CLI (nsf)
 
