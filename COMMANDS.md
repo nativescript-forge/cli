@@ -5,6 +5,7 @@ Detailed documentation for all NativeScript Forge CLI (`nsf`) commands.
 ## Table of Contents
 - [nsf create](#nsf-create)
 - [nsf run](#nsf-run)
+- [nsf build](#nsf-build)
 
 ---
 
@@ -60,6 +61,34 @@ nsf run
 | **Android App Bundle** | Produces and deploys an Android App Bundle (.aab). | `--aab` |
 | **Force check** | Skips compatibility checks and forces dependency installation. | `--force` |
 | **Environment flags** | Allows passing additional flags like `aot`, `snapshot`, `uglify`, `report`, etc. | `--env.*` |
+
+---
+
+## nsf build
+
+Builds the project for the selected platform and produces an application package (APK, AAB, etc.).
+
+### Usage
+```bash
+nsf build
+```
+
+### Interactive Platform Selection
+- **Android**: Build for Android.
+- **iOS**: Build for iOS.
+- **VisionOS**: Build for VisionOS.
+
+### Interactive Options (Detailed)
+
+| Option | Description | Flag |
+| :--- | :--- | :--- |
+| **Release build** | Produces a release build with production optimizations. | `--release` |
+| **Just launch** | Does not print application output in the console. | `--justlaunch` |
+| **Select device** | Targets a specific device/identifier for the build process. | `--device <ID>` |
+| **Enable HMR** | Enables Hot Module Replacement (HMR). | `--hmr` |
+| **Android App Bundle** | Produces an Android App Bundle (.aab). | `--aab` |
+| **Force check** | Skips compatibility checks and forces dependency install. | `--force` |
+| **Environment flags** | Specify flags like `aot`, `snapshot`, `uglify`, `report`, etc. | `--env.*` |
 
 ---
 

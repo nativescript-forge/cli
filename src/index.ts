@@ -1,6 +1,7 @@
 import { Command } from "commander";
 import { createCommand } from "./commands/create";
 import { runCommand } from "./commands/run";
+import { buildCommand } from "./commands/build";
 import pc from "picocolors";
 import { spawn } from "child_process";
 
@@ -41,6 +42,13 @@ program
   .description("Run the project on a device or emulator")
   .action(async () => {
     await runCommand();
+  });
+
+program
+  .command("build")
+  .description("Build the project for the selected platform")
+  .action(async () => {
+    await buildCommand();
   });
 
 program.on("command:*", (operands) => {
