@@ -68,15 +68,15 @@ nsf run
 
 ### Interactive Options (Detailed)
 
-| Option                 | Description                                                                                                                                                                       | Flag            |
-| :--------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------------- |
-| **Release build**      | Produces a release build by running webpack in production mode and native build in release mode.                                                                                  | `--release`     |
-| **Just launch**        | Launches the application on the device without attaching the console output.                                                                                                      | `--justlaunch`  |
-| **Select device**      | Automatically detects available devices and lets you pick from a list. Includes options to **🔄 Check Again** or **➡️ Continue** to let NativeScript CLI handle it automatically. | `--device <ID>` |
-| **Disable HMR**        | Disables Hot Module Replacement. Restarts the whole app on code change.                                                                                                           | `--no-hmr`      |
-| **Android App Bundle** | Produces and deploys an Android App Bundle (.aab).                                                                                                                                | `--aab`         |
-| **Force check**        | Skips compatibility checks and forces dependency installation.                                                                                                                    | `--force`       |
-| **Environment flags**  | Allows passing additional flags like `aot`, `snapshot`, `uglify`, `report`, etc.                                                                                                  | `--env.*`       |
+| Option                 | Description                                                                                                                                                                 | Flag            |
+| :--------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------------- |
+| **Release build**      | Produces a release build by running webpack in production mode and native build in release mode.                                                                            | `--release`     |
+| **Just launch**        | Launches the application on the device without attaching the console output.                                                                                                | `--justlaunch`  |
+| **Select device**      | Automatically detects available devices and lets you pick from a list. Includes options to **Check Again** or **Continue** to let NativeScript CLI handle it automatically. | `--device <ID>` |
+| **Disable HMR**        | Disables Hot Module Replacement. Restarts the whole app on code change.                                                                                                     | `--no-hmr`      |
+| **Android App Bundle** | Produces and deploys an Android App Bundle (.aab).                                                                                                                          | `--aab`         |
+| **Force check**        | Skips compatibility checks and forces dependency installation.                                                                                                              | `--force`       |
+| **Environment flags**  | Allows passing additional flags like `aot`, `snapshot`, `uglify`, `report`, etc.                                                                                            | `--env.*`       |
 
 ---
 
