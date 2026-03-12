@@ -84,29 +84,41 @@ nsf run
 
 Builds the project for the selected platform and produces an application package (APK, AAB, etc.).
 
+> [!NOTE]
+> Currently, `nsf build` only supports **Android**. iOS and VisionOS options are disabled.
+
 ### Usage
 
 ```bash
 nsf build
 ```
 
-### Interactive Platform Selection
+### Build Presets
 
-- **Android**: Build for Android.
-- **iOS**: Build for iOS.
-- **VisionOS**: Build for VisionOS.
+When you run `nsf build`, you will be prompted to choose a build preset:
 
-### Interactive Options (Detailed)
+#### 1. PRODUCTION
+Release build with full optimization and keystore signing.
+- **Command**: `ns clean && ns build android --env.uglify --release --key-store-path ... --key-store-password ... --key-store-alias ... --key-store-alias-password ... [--aab|--apk] [--copy-to ...]`
+- **Required Inputs**:
+    1. **Keystore Path**: Full path to your `.keystore` or `.jks` file.
+    2. **Store Password**: The password for the keystore.
+    3. **Store Alias**: The alias for the key.
+    4. **Alias Password**: The password for the key alias.
+- **Selection**:
+    - **Output Type**: Choose between AAB (Android App Bundle) or APK.
+    - **Output Destination**: (Optional) Specify where to copy the final build file.
 
-| Option                 | Description                                                    | Flag            |
-| :--------------------- | :------------------------------------------------------------- | :-------------- |
-| **Release build**      | Produces a release build with production optimizations.        | `--release`     |
-| **Just launch**        | Does not print application output in the console.              | `--justlaunch`  |
-| **Select device**      | Targets a specific device/identifier for the build process.    | `--device <ID>` |
-| **Enable HMR**         | Enables Hot Module Replacement (HMR).                          | `--hmr`         |
-| **Android App Bundle** | Produces an Android App Bundle (.aab).                         | `--aab`         |
-| **Force check**        | Skips compatibility checks and forces dependency install.      | `--force`       |
-| **Environment flags**  | Specify flags like `aot`, `snapshot`, `uglify`, `report`, etc. | `--env.*`       |
+#### 2. DEVELOPMENT
+Debug build for testing purposes with uglify optimization.
+- **Command**: `ns clean && ns build android --env.uglify [--aab|--apk] [--copy-to ...]`
+- **Selection**:
+    - **Output Type**: Choose between AAB or APK.
+    - **Output Destination**: (Optional) Specify where to copy the final build file.
+
+#### 3. CUSTOM
+Manually select build options as before.
+- Allows you to toggle individual flags like `--release`, `--justlaunch`, `--device`, `--hmr`, `--aab`, `--force`, and `--env.*`.
 
 ---
 

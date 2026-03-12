@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const commander_1 = require("commander");
 const create_1 = require("./commands/create");
 const run_1 = require("./commands/run");
+const build_1 = require("./commands/build");
 const picocolors_1 = __importDefault(require("picocolors"));
 const child_process_1 = require("child_process");
 const program = new commander_1.Command();
@@ -35,6 +36,12 @@ program
     .description("Run the project on a device or emulator")
     .action(async () => {
     await (0, run_1.runCommand)();
+});
+program
+    .command("build")
+    .description("Build the project for the selected platform")
+    .action(async () => {
+    await (0, build_1.buildCommand)();
 });
 program.on("command:*", (operands) => {
     const args = [...operands, ...program.args.slice(operands.length)];
