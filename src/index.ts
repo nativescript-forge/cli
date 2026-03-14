@@ -1,7 +1,9 @@
+import "./utils/theme";
 import { Command } from "commander";
 import { createCommand } from "./commands/create";
 import { runCommand } from "./commands/run";
 import { buildCommand } from "./commands/build";
+import { resourcesCommand } from "./commands/resources";
 import pc from "picocolors";
 import { spawn } from "child_process";
 
@@ -49,6 +51,13 @@ program
   .description("Build the project for the selected platform")
   .action(async () => {
     await buildCommand();
+  });
+
+program
+  .command("resources")
+  .description("Generate application resources such as icons and splash screens")
+  .action(async () => {
+    await resourcesCommand();
   });
 
 program.on("command:*", (operands) => {

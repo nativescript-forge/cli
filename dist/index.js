@@ -3,10 +3,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+require("./utils/theme");
 const commander_1 = require("commander");
 const create_1 = require("./commands/create");
 const run_1 = require("./commands/run");
 const build_1 = require("./commands/build");
+const resources_1 = require("./commands/resources");
 const picocolors_1 = __importDefault(require("picocolors"));
 const child_process_1 = require("child_process");
 const program = new commander_1.Command();
@@ -42,6 +44,12 @@ program
     .description("Build the project for the selected platform")
     .action(async () => {
     await (0, build_1.buildCommand)();
+});
+program
+    .command("resources")
+    .description("Generate application resources such as icons and splash screens")
+    .action(async () => {
+    await (0, resources_1.resourcesCommand)();
 });
 program.on("command:*", (operands) => {
     const args = [...operands, ...program.args.slice(operands.length)];

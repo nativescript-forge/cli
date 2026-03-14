@@ -49,18 +49,16 @@ async function buildCommand() {
         message: "Select platform:",
         options: [
             { value: "android", label: "Android", hint: "Build for Android" },
-            {
-                value: "ios",
-                label: "iOS",
-                hint: "Build for iOS (Disabled)",
-                disabled: true,
-            },
-            {
-                value: "visionos",
-                label: "VisionOS",
-                hint: "Build for VisionOS (Disabled)",
-                disabled: true,
-            },
+            // {
+            //   value: "ios",
+            //   label: "iOS",
+            //   hint: "Build for iOS (Disabled)",
+            // },
+            // {
+            //   value: "visionos",
+            //   label: "VisionOS",
+            //   hint: "Build for VisionOS (Disabled)",
+            // },
         ],
     });
     if ((0, prompts_1.isCancel)(platform)) {
@@ -95,7 +93,7 @@ async function buildCommand() {
             args.push("--release");
             const keystorePath = await (0, prompts_1.text)({
                 message: "Enter full path to keystore location:",
-                placeholder: "C:\\my-key.keystore",
+                placeholder: "C:\\...\\my-key.keystore",
                 validate(value) {
                     if (!value)
                         return "Keystore path is required";
