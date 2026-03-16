@@ -8,10 +8,9 @@ const prompts_1 = require("@clack/prompts");
 const child_process_1 = require("child_process");
 const picocolors_1 = __importDefault(require("picocolors"));
 const constants_1 = require("../utils/constants");
-const FORGE_COLOR = (text) => `\x1b[38;2;249;168;37m${text}\x1b[0m`;
-const BG_FORGE_COLOR = (text) => `\x1b[48;2;249;168;37m\x1b[30m${text}\x1b[0m`;
+const ui_1 = require("../utils/ui");
 async function createCommand(passedAppName) {
-    (0, prompts_1.intro)(BG_FORGE_COLOR(" nsf create "));
+    (0, prompts_1.intro)((0, ui_1.BG_FORGE_COLOR)(" nsf create "));
     let appName = passedAppName;
     if (!appName) {
         appName = (await (0, prompts_1.text)({
@@ -24,7 +23,7 @@ async function createCommand(passedAppName) {
         }));
     }
     if ((0, prompts_1.isCancel)(appName)) {
-        (0, prompts_1.cancel)("Operation cancelled.");
+        (0, prompts_1.cancel)(ui_1.UI_STRINGS.cancel);
         process.exit(0);
     }
     const platformKey = await (0, prompts_1.select)({
@@ -35,7 +34,7 @@ async function createCommand(passedAppName) {
         })),
     });
     if ((0, prompts_1.isCancel)(platformKey)) {
-        (0, prompts_1.cancel)("Operation cancelled.");
+        (0, prompts_1.cancel)(ui_1.UI_STRINGS.cancel);
         process.exit(0);
     }
     const platform = constants_1.TEMPLATE_MAPPING[platformKey];
@@ -55,7 +54,7 @@ async function createCommand(passedAppName) {
         options: flavorOptions,
     });
     if ((0, prompts_1.isCancel)(flavorName)) {
-        (0, prompts_1.cancel)("Operation cancelled.");
+        (0, prompts_1.cancel)(ui_1.UI_STRINGS.cancel);
         process.exit(0);
     }
     const flavor = platform.flavors.find((f) => f.name === flavorName);
@@ -71,19 +70,31 @@ async function createCommand(passedAppName) {
         })),
     });
     if ((0, prompts_1.isCancel)(templateValue)) {
-        (0, prompts_1.cancel)("Operation cancelled.");
+        (0, prompts_1.cancel)(ui_1.UI_STRINGS.cancel);
         process.exit(0);
     }
     const platformLabel = platform.name;
     const flavorLabel = flavorName;
     const templateLabel = flavor.templates.find((t) => t.value === templateValue)?.name || "Default";
+    const args = ["create", appName, "--template", templateValue];
     const s = (0, prompts_1.spinner)();
-    s.start(`Creating application ${picocolors_1.default.cyan(appName)}...`);
+    const cmdLine = `ns ${args.join(" ")}`;
+    s.start(`Executing: ${picocolors_1.default.green(cmdLine)}`);
     try {
-        const args = ["create", appName, "--template", templateValue];
-        const child = (0, child_process_1.spawn)("ns", args, { stdio: "ignore", shell: true });
+        const child = (0, child_process_1.spawn)("ns", args, { stdio: ["inherit", "pipe", "inherit"], shell: true });
+        let outputStarted = false;
+        child.stdout.on("data", (data) => {
+            if (!outputStarted) {
+                s.stop(`Executing: ${picocolors_1.default.green(cmdLine)}`);
+                outputStarted = true;
+            }
+            process.stdout.write(data);
+        });
         await new Promise((resolve, reject) => {
             child.on("close", (code) => {
+                if (!outputStarted) {
+                    s.stop(`Executing: ${picocolors_1.default.green(cmdLine)}`);
+                }
                 if (code === 0) {
                     resolve(true);
                 }
@@ -92,7 +103,6 @@ async function createCommand(passedAppName) {
                 }
             });
         });
-        s.stop(`Application ${picocolors_1.default.green(appName)} created successfully!`);
         (0, prompts_1.note)(`${picocolors_1.default.white("Summary:")}\n` +
             `${picocolors_1.default.dim("  Platform: ")} ${picocolors_1.default.cyan(platformLabel)}\n` +
             `${picocolors_1.default.dim("  Flavor:   ")} ${picocolors_1.default.cyan(flavorLabel)}\n` +
@@ -100,11 +110,10 @@ async function createCommand(passedAppName) {
             `${picocolors_1.default.white("Next steps:")}\n` +
             picocolors_1.default.cyan(`  cd ${appName}\n`) +
             picocolors_1.default.cyan(`  ns run android|ios|visionos`), "Success");
-        (0, prompts_1.outro)(BG_FORGE_COLOR(" NativeScript Forge CLI! "));
+        (0, prompts_1.outro)(ui_1.UI_STRINGS.outro);
     }
     catch (error) {
-        s.stop("Failed to create application.");
-        (0, prompts_1.cancel)(`Error: ${error.message}`);
+        (0, prompts_1.cancel)(ui_1.UI_STRINGS.error(error.message));
         process.exit(1);
     }
 }

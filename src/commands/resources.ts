@@ -10,9 +10,7 @@ import {
 } from "@clack/prompts";
 import { spawn } from "child_process";
 import pc from "picocolors";
-
-const FORGE_COLOR = (text: string) => `\x1b[38;2;249;168;37m${text}\x1b[0m`;
-const BG_FORGE_COLOR = (text: string) => `\x1b[48;2;249;168;37m\x1b[30m${text}\x1b[0m`;
+import { BG_FORGE_COLOR, UI_STRINGS } from "../utils/ui";
 
 export async function resourcesCommand() {
   intro(BG_FORGE_COLOR(" nsf resources "));
@@ -26,12 +24,13 @@ export async function resourcesCommand() {
   });
 
   if (isCancel(resourceType)) {
-    cancel("Operation cancelled.");
+    cancel(UI_STRINGS.cancel);
     process.exit(0);
   }
 
   const imagePath = await text({
-    message: "Enter the real path of the image (Recommended size: 1080x1080 pixels):",
+    message:
+      "Enter the real path of the image (Recommended size: 1080x1080 pixels):",
     placeholder: "C:\\...\\myicon.png",
     validate(value: string) {
       if (value.trim().length === 0) return "Image path is required!";
@@ -39,7 +38,7 @@ export async function resourcesCommand() {
   });
 
   if (isCancel(imagePath)) {
-    cancel("Operation cancelled.");
+    cancel(UI_STRINGS.cancel);
     process.exit(0);
   }
 
@@ -52,24 +51,35 @@ export async function resourcesCommand() {
     });
 
     if (isCancel(background)) {
-      cancel("Operation cancelled.");
+      cancel(UI_STRINGS.cancel);
       process.exit(0);
     }
   }
 
-  const displayResourceType = resourceType === "icons" ? "Icon" : "Splashscreen";
+  const displayResourceType =
+    resourceType === "icons" ? "Icon" : "Splashscreen";
+
+  const args = [
+    "resources",
+    "generate",
+    resourceType as string,
+    imagePath as string,
+  ];
+
+  if (
+    resourceType === "splashes" &&
+    typeof background === "string" &&
+    background.trim().length > 0
+  ) {
+    args.push("--background", background.trim());
+  }
 
   const s = spinner();
-  s.start(`Generating ${displayResourceType}...`);
+  s.start(`Preparing ${pc.cyan(displayResourceType)}...`);
+  s.stop(`Executing: ${pc.green(`ns ${args.join(" ")}`)}`);
 
   try {
-    const args = ["resources", "generate", resourceType as string, imagePath as string];
-
-    if (resourceType === "splashes" && typeof background === "string" && background.trim().length > 0) {
-      args.push("--background", background.trim());
-    }
-
-    const child = spawn("ns", args, { stdio: "ignore", shell: true });
+    const child = spawn("ns", args, { stdio: "inherit", shell: true });
 
     await new Promise((resolve, reject) => {
       child.on("close", (code: number | null) => {
@@ -81,22 +91,24 @@ export async function resourcesCommand() {
       });
     });
 
-    s.stop(`${pc.green(displayResourceType)} generated successfully!`);
-    
-    let summaryText = `${pc.white("Summary:")}\n` +
+    let summaryText =
+      `${pc.white("Summary:")}\n` +
       `${pc.dim("  Resource Type: ")} ${pc.cyan(resourceType === "icons" ? "Icon" : "Splashscreen")}\n` +
       `${pc.dim("  Source Image:  ")} ${pc.cyan(imagePath)}`;
 
-    if (resourceType === "splashes" && typeof background === "string" && background.trim().length > 0) {
+    if (
+      resourceType === "splashes" &&
+      typeof background === "string" &&
+      background.trim().length > 0
+    ) {
       summaryText += `\n${pc.dim("  Background:    ")} ${pc.cyan(background)}`;
     }
 
     note(summaryText, "Success");
 
-    outro(BG_FORGE_COLOR(" NativeScript Forge CLI! "));
+    outro(UI_STRINGS.outro);
   } catch (error: any) {
-    s.stop(`Failed to generate ${displayResourceType}.`);
-    cancel(`Error: ${error.message}`);
+    cancel(UI_STRINGS.error(error.message));
     process.exit(1);
   }
 }

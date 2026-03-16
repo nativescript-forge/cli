@@ -8,10 +8,36 @@ Detailed documentation for all NativeScript Forge CLI (`nsf`) commands.
 
 ## Table of Contents
 
+- [nsf menu](#nsf-menu)
 - [nsf create](#nsf-create)
 - [nsf run](#nsf-run)
 - [nsf build](#nsf-build)
 - [nsf resources](#nsf-resources)
+- [nsf proxy](#nsf-proxy)
+- [nsf doctor](#nsf-doctor)
+- [nsf info](#nsf-info)
+
+---
+
+## nsf menu
+
+The main interactive entry point for NativeScript Forge. It allows you to select and execute any available command from a visual list.
+
+> [!TIP]
+> **Default Behavior**
+> Running `nsf` without any arguments will automatically open the main menu.
+
+### Usage
+
+```bash
+nsf
+```
+
+or
+
+```bash
+nsf menu
+```
 
 ---
 
@@ -149,3 +175,59 @@ nsf resources
 
 - For icons: `ns resources generate icons <source_image_path>`
 - For splash screens: `ns resources generate splashes <source_image_path> --background <color_code>`
+
+---
+
+## nsf proxy
+
+Manage proxy settings for the NativeScript CLI.
+
+### Usage
+
+```bash
+nsf proxy
+```
+
+### Options
+
+1. **Show**: Displays the current proxy configuration.
+2. **Set**: Configures a new proxy.
+   - **Proxy URL** (Required): The full URL of the proxy (e.g., `http://127.0.0.1:8888`).
+   - **Credentials** (Optional, Windows only): If required, you can provide a **Username** and **Password**.
+3. **Clear**: Removes the current proxy configuration.
+
+> [!IMPORTANT]
+> **SSL Connections**
+> The `set` operation automatically includes the `--insecure` flag, allowing SSL connections even without a valid CA certificate.
+
+> [!NOTE]
+> **External Proxies**
+> NativeScript CLI proxy settings do not automatically apply to other tools. You must configure them separately:
+>
+> - **NPM**: [https://docs.npmjs.com/misc/config#https-proxy](https://docs.npmjs.com/misc/config#https-proxy)
+> - **Gradle**: [https://docs.gradle.org/3.3/userguide/build_environment.html#sec:accessing_the_web_via_a_proxy](https://docs.gradle.org/3.3/userguide/build_environment.html#sec:accessing_the_web_via_a_proxy)
+> - **Docker**: [https://docs.docker.com/network/proxy/](https://docs.docker.com/network/proxy/)
+
+---
+
+## nsf doctor
+
+Check your environment for potential issues.
+
+### Usage
+
+```bash
+nsf doctor
+```
+
+---
+
+## nsf info
+
+Display information about the current environment.
+
+### Usage
+
+```bash
+nsf info
+```

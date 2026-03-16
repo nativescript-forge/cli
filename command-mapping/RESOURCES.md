@@ -1,21 +1,31 @@
 # RESOURCES Command Mapping
 
-Mapping for `nsf resources` to generate application resources such as icons and splash screens.
+This document maps the `nsf resources` interactive command to its corresponding NativeScript CLI (`ns`) commands for generating app assets.
 
-## 1. Choose Resource
-Select the type of resource to generate:
-- **Icon**
-- **Splashscreen**
+## Overview
 
-## 2. Input Image Path
-Input the real path of the image to be used for the icon or splashscreen.
-- **Recommendation:** 1080x1080 pixels.
+The `nsf resources` command provides a guided process to generate platform-specific icons and splash screens from a single source image.
 
-## 3. Input Background Color (Optional, Splashscreen only)
-Input a background color code for the splashscreen (e.g., `#000000`).
+## Command Mappings
 
-## Equivalent NativeScript CLI Commands
-- Icons: `ns resources generate icons <source_image_path>`
-  - Example: `ns resources generate icons C:\...\myicon.png`
-- Splash Screens: `ns resources generate splashes <source_image_path> --background <color_code>`
-  - Example: `ns resources generate splashes C:\...\myicon.png --background #000000`
+### 1. Resource Types
+
+| Interactive Option | CLI Command | Description |
+| :--- | :--- | :--- |
+| **Icon** | `ns resources generate icons <Path>` | Generates app icons for all supported platforms. |
+| **Splashscreen** | `ns resources generate splashes <Path> --background <Color>` | Generates splash screens with an optional background color. |
+
+---
+
+### 2. Options Detail
+
+- **Image Path**: The absolute path to the source image (recommended 1080x1080px).
+- **Background Color**: Hex color code (e.g., `#FFFFFF`) used for splash screen generation.
+
+---
+
+## Implementation Details
+
+- **File:** `src/commands/resources.ts`
+- **Behavior:** This command guides the user through selecting the resource type, providing the image path, and specifying an optional background color for splash screens.
+- **Source:** Based on `ns resources --help`.

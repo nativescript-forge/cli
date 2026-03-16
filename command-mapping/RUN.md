@@ -1,18 +1,23 @@
 # RUN Command Mapping
 
-Mapping of `nsf run` interactive options to standard NativeScript CLI (`ns`) flags.
+This document maps the `nsf run` interactive command to its corresponding NativeScript CLI (`ns`) commands and flags.
 
-> [!NOTE]
-> Run command mapping is based on `ns run --help`
+## Overview
 
-## Platforms
+The `nsf run` command provides an interactive way to run your NativeScript project on a connected device or emulator.
+
+## Command Mappings
+
+### 1. Platforms
 - **Android**: `ns run android`
 - **iOS**: `ns run ios`
 - **VisionOS**: `ns run visionos`
 
-## Options Mapping
+---
 
-| Interactive Label | CLI Flag | Description |
+### 2. Options Mapping
+
+| Interactive Option | CLI Flag | Description |
 | :--- | :--- | :--- |
 | **Release build** | `--release` | Produces a production-ready build. |
 | **Just launch** | `--justlaunch` | Launches the app without terminal output. |
@@ -24,7 +29,15 @@ Mapping of `nsf run` interactive options to standard NativeScript CLI (`ns`) fla
 
 ---
 
-## Device Selection Flow
+### 3. Device Selection Flow
 1. **Fetch**: `ns device <platform> --available-devices`
 2. **Select**: User picks from identified devices.
 3. **Manual**: Fallback to manual ID input if needed.
+
+---
+
+## Implementation Details
+
+- **File:** `src/commands/run.ts`
+- **Behavior:** This command allows multi-selection of run options and provides an interactive device picker.
+- **Source:** Based on `ns run --help`.

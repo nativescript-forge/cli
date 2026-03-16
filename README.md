@@ -20,6 +20,14 @@ NativeScript Forge CLI (`nsf`) is built on top of the standard NativeScript CLI 
 npm install -g @nativescript-forge/cli
 ```
 
+## Usage
+
+You can use the `nsf` command followed by any supported NativeScript action.
+
+- **Main Menu**: Run `nsf menu` to see all available interactive commands in a beautiful list.
+- **Direct Command**: Run `nsf <command>` (e.g., `nsf create`, `nsf run`) to jump directly into a specific task.
+- **Help**: Run `nsf` without arguments to see the standard help information.
+
 ## Documentation
 
 For detailed command descriptions, options, and advanced usage, see: **[Full Commands Documentation](COMMANDS.md)**

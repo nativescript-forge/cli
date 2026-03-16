@@ -4,17 +4,13 @@ import {
   select,
   text,
   spinner,
-  note,
   isCancel,
   cancel,
   multiselect,
 } from "@clack/prompts";
 import { spawn, execSync } from "child_process";
 import pc from "picocolors";
-
-const FORGE_COLOR = (text: string) => `\x1b[38;2;249;168;37m${text}\x1b[0m`;
-const BG_FORGE_COLOR = (text: string) =>
-  `\x1b[48;2;249;168;37m\x1b[30m${text}\x1b[0m`;
+import { BG_FORGE_COLOR, UI_STRINGS } from "../utils/ui";
 
 async function getAvailableDevices(
   platform: string,
@@ -62,21 +58,11 @@ export async function buildCommand() {
     message: "Select platform:",
     options: [
       { value: "android", label: "Android", hint: "Build for Android" },
-      // {
-      //   value: "ios",
-      //   label: "iOS",
-      //   hint: "Build for iOS (Disabled)",
-      // },
-      // {
-      //   value: "visionos",
-      //   label: "VisionOS",
-      //   hint: "Build for VisionOS (Disabled)",
-      // },
     ],
   });
 
   if (isCancel(platform)) {
-    cancel("Operation cancelled.");
+    cancel(UI_STRINGS.cancel);
     process.exit(0);
   }
 
@@ -98,7 +84,7 @@ export async function buildCommand() {
   });
 
   if (isCancel(preset)) {
-    cancel("Operation cancelled.");
+    cancel(UI_STRINGS.cancel);
     process.exit(0);
   }
 
@@ -119,7 +105,7 @@ export async function buildCommand() {
         },
       });
       if (isCancel(keystorePath)) {
-        cancel("Operation cancelled.");
+        cancel(UI_STRINGS.cancel);
         process.exit(0);
       }
       args.push("--key-store-path", keystorePath as string);
@@ -132,7 +118,7 @@ export async function buildCommand() {
         },
       });
       if (isCancel(storePassword)) {
-        cancel("Operation cancelled.");
+        cancel(UI_STRINGS.cancel);
         process.exit(0);
       }
       args.push("--key-store-password", storePassword as string);
@@ -145,7 +131,7 @@ export async function buildCommand() {
         },
       });
       if (isCancel(storeAlias)) {
-        cancel("Operation cancelled.");
+        cancel(UI_STRINGS.cancel);
         process.exit(0);
       }
       args.push("--key-store-alias", storeAlias as string);
@@ -158,7 +144,7 @@ export async function buildCommand() {
         },
       });
       if (isCancel(storeAliasPassword)) {
-        cancel("Operation cancelled.");
+        cancel(UI_STRINGS.cancel);
         process.exit(0);
       }
       args.push("--key-store-alias-password", storeAliasPassword as string);
@@ -172,7 +158,7 @@ export async function buildCommand() {
       ],
     });
     if (isCancel(outputType)) {
-      cancel("Operation cancelled.");
+      cancel(UI_STRINGS.cancel);
       process.exit(0);
     }
     args.push(`--${outputType}`);
@@ -182,7 +168,7 @@ export async function buildCommand() {
       placeholder: "dist/build.apk",
     });
     if (isCancel(copyTo)) {
-      cancel("Operation cancelled.");
+      cancel(UI_STRINGS.cancel);
       process.exit(0);
     }
     if (copyTo.trim()) {
@@ -233,7 +219,7 @@ export async function buildCommand() {
     })) as string[];
 
     if (isCancel(selectedOptions)) {
-      cancel("Operation cancelled.");
+      cancel(UI_STRINGS.cancel);
       process.exit(0);
     }
 
@@ -244,7 +230,9 @@ export async function buildCommand() {
         let stayInDeviceSelection = true;
         while (stayInDeviceSelection) {
           const sFetch = spinner();
-          sFetch.start(`Fetching available ${platform} devices...`);
+          sFetch.start(
+            `Fetching available ${pc.cyan(platform as string)} devices...`,
+          );
           const availableDevices = await getAvailableDevices(
             platform as string,
           );
@@ -255,12 +243,12 @@ export async function buildCommand() {
             {
               value: "retry",
               label: "🔄 Check Again",
-              hint: "Re-scan for connected devices",
+              hint: "Re-scan for connected devices/emulators",
             },
             {
               value: "none",
               label: "➡️ Continue without selecting",
-              hint: "Skip specifying a device",
+              hint: "Let NativeScript CLI handle device selection/startup",
             },
             {
               value: "manual",
@@ -275,11 +263,14 @@ export async function buildCommand() {
           })) as string;
 
           if (isCancel(deviceId)) {
-            cancel("Operation cancelled.");
+            cancel(UI_STRINGS.cancel);
             process.exit(0);
           }
 
-          if (deviceId === "retry") continue;
+          if (deviceId === "retry") {
+            continue;
+          }
+
           if (deviceId === "none") {
             deviceId = "";
             stayInDeviceSelection = false;
@@ -291,8 +282,9 @@ export async function buildCommand() {
                 if (value.length === 0) return `Device ID is required!`;
               },
             })) as string;
+
             if (isCancel(deviceId)) {
-              cancel("Operation cancelled.");
+              cancel(UI_STRINGS.cancel);
               process.exit(0);
             }
             stayInDeviceSelection = false;
@@ -300,22 +292,26 @@ export async function buildCommand() {
             stayInDeviceSelection = false;
           }
         }
-        if (deviceId) args.push("--device", deviceId);
+
+        if (deviceId) {
+          args.push("--device", deviceId);
+        }
       } else if (option === "env") {
         const envInput = (await text({
-          message: "Enter Env flags (e.g. aot, snapshot, uglify):",
-          placeholder: "aot, snapshot, uglify",
+          message: "Enter Environment flags (comma separated):",
+          placeholder: "aot, snapshot, uglify, report",
         })) as string;
 
         if (isCancel(envInput)) {
-          cancel("Operation cancelled.");
+          cancel(UI_STRINGS.cancel);
           process.exit(0);
         }
+
         if (envInput.trim()) {
-          envInput
-            .split(",")
-            .map((t) => t.trim())
-            .forEach((flag) => args.push(`--env.${flag}`));
+          const envFlags = envInput.split(",").map((t) => t.trim());
+          envFlags.forEach((flag) => {
+            args.push(`--env.${flag}`);
+          });
         }
       } else {
         args.push(`--${option}`);
@@ -324,17 +320,31 @@ export async function buildCommand() {
   }
 
   const s = spinner();
-  const buildCommandStr = `ns ${args.join(" ")}`;
-  const fullCommand = `ns clean && ${buildCommandStr}`;
+  const cmdLine = `ns ${args.join(" ")}`;
+  s.start(`Executing: ${pc.green(cmdLine)}`);
 
-  s.start(`Building NativeScript for ${FORGE_COLOR(platform as string)}...`);
-  s.stop(`Executing: ${pc.green(fullCommand)}`);
+  const child = spawn("ns", args, { stdio: ["inherit", "pipe", "inherit"], shell: true });
 
-  const child = spawn(fullCommand, { stdio: "inherit", shell: true });
+  let outputStarted = false;
 
-  child.on("close", (code: number | null) => {
-    if (code !== 0) console.log(pc.red(`\nBuild failed with code ${code}`));
-    outro(FORGE_COLOR(" NativeScript Forge CLI! "));
-    process.exit(code || 0);
+  child.stdout.on("data", (data) => {
+    if (!outputStarted) {
+      s.stop(`Executing: ${pc.green(cmdLine)}`);
+      outputStarted = true;
+    }
+    process.stdout.write(data);
+  });
+
+  await new Promise((resolve) => {
+    child.on("close", (code: number | null) => {
+      if (!outputStarted) {
+        s.stop(`Executing: ${pc.green(cmdLine)}`);
+      }
+      if (code !== 0) {
+        console.log(pc.red(`\nCommand exited with code ${code}`));
+      }
+      outro(UI_STRINGS.outro);
+      process.exit(code || 0);
+    });
   });
 }

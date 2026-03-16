@@ -11,9 +11,7 @@ import {
 import { spawn } from "child_process";
 import pc from "picocolors";
 import { TEMPLATE_MAPPING } from "../utils/constants";
-
-const FORGE_COLOR = (text: string) => `\x1b[38;2;249;168;37m${text}\x1b[0m`;
-const BG_FORGE_COLOR = (text: string) => `\x1b[48;2;249;168;37m\x1b[30m${text}\x1b[0m`;
+import { BG_FORGE_COLOR, UI_STRINGS } from "../utils/ui";
 
 export async function createCommand(passedAppName?: string) {
   intro(BG_FORGE_COLOR(" nsf create "));
@@ -31,7 +29,7 @@ export async function createCommand(passedAppName?: string) {
   }
 
   if (isCancel(appName)) {
-    cancel("Operation cancelled.");
+    cancel(UI_STRINGS.cancel);
     process.exit(0);
   }
 
@@ -44,7 +42,7 @@ export async function createCommand(passedAppName?: string) {
   });
 
   if (isCancel(platformKey)) {
-    cancel("Operation cancelled.");
+    cancel(UI_STRINGS.cancel);
     process.exit(0);
   }
 
@@ -69,7 +67,7 @@ export async function createCommand(passedAppName?: string) {
   });
 
   if (isCancel(flavorName)) {
-    cancel("Operation cancelled.");
+    cancel(UI_STRINGS.cancel);
     process.exit(0);
   }
 
@@ -89,7 +87,7 @@ export async function createCommand(passedAppName?: string) {
   });
 
   if (isCancel(templateValue)) {
-    cancel("Operation cancelled.");
+    cancel(UI_STRINGS.cancel);
     process.exit(0);
   }
 
@@ -98,16 +96,30 @@ export async function createCommand(passedAppName?: string) {
   const templateLabel =
     flavor.templates.find((t) => t.value === templateValue)?.name || "Default";
 
+  const args = ["create", appName, "--template", templateValue as string];
+
   const s = spinner();
-  s.start(`Creating application ${pc.cyan(appName)}...`);
+  const cmdLine = `ns ${args.join(" ")}`;
+  s.start(`Executing: ${pc.green(cmdLine)}`);
 
   try {
-    const args = ["create", appName, "--template", templateValue as string];
+    const child = spawn("ns", args, { stdio: ["inherit", "pipe", "inherit"], shell: true });
 
-    const child = spawn("ns", args, { stdio: "ignore", shell: true });
+    let outputStarted = false;
+
+    child.stdout.on("data", (data) => {
+      if (!outputStarted) {
+        s.stop(`Executing: ${pc.green(cmdLine)}`);
+        outputStarted = true;
+      }
+      process.stdout.write(data);
+    });
 
     await new Promise((resolve, reject) => {
       child.on("close", (code: number | null) => {
+        if (!outputStarted) {
+          s.stop(`Executing: ${pc.green(cmdLine)}`);
+        }
         if (code === 0) {
           resolve(true);
         } else {
@@ -115,8 +127,6 @@ export async function createCommand(passedAppName?: string) {
         }
       });
     });
-
-    s.stop(`Application ${pc.green(appName)} created successfully!`);
 
     note(
       `${pc.white("Summary:")}\n` +
@@ -129,10 +139,9 @@ export async function createCommand(passedAppName?: string) {
       "Success",
     );
 
-    outro(BG_FORGE_COLOR(" NativeScript Forge CLI! "));
+    outro(UI_STRINGS.outro);
   } catch (error: any) {
-    s.stop("Failed to create application.");
-    cancel(`Error: ${error.message}`);
+    cancel(UI_STRINGS.error(error.message));
     process.exit(1);
   }
 }

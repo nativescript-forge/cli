@@ -4,6 +4,10 @@ import { createCommand } from "./commands/create";
 import { runCommand } from "./commands/run";
 import { buildCommand } from "./commands/build";
 import { resourcesCommand } from "./commands/resources";
+import { proxyCommand } from "./commands/proxy";
+import { doctorCommand } from "./commands/doctor";
+import { infoCommand } from "./commands/info";
+import { menuCommand } from "./commands/menu";
 import pc from "picocolors";
 import { spawn } from "child_process";
 
@@ -29,7 +33,8 @@ program
 program.addHelpText("before", FORGE_COLOR(ASCII_ART));
 program.addHelpText(
   "before",
-  pc.white(" NativeScript Forge CLI ") + FORGE_COLOR(`version ${pkg.version}\n`),
+  pc.white(" NativeScript Forge CLI ") +
+    FORGE_COLOR(`version ${pkg.version}\n`),
 );
 
 program
@@ -55,9 +60,39 @@ program
 
 program
   .command("resources")
-  .description("Generate application resources such as icons and splash screens")
+  .description(
+    "Generate application resources such as icons and splash screens",
+  )
   .action(async () => {
     await resourcesCommand();
+  });
+
+program
+  .command("proxy")
+  .description("Configure and manage proxy settings")
+  .action(async () => {
+    await proxyCommand();
+  });
+
+program
+  .command("doctor")
+  .description("Check the environment for potential issues")
+  .action(async () => {
+    await doctorCommand();
+  });
+
+program
+  .command("info")
+  .description("Display information about the current environment")
+  .action(async () => {
+    await infoCommand();
+  });
+
+program
+  .command("menu")
+  .description("Show the main menu")
+  .action(async () => {
+    await menuCommand();
   });
 
 program.on("command:*", (operands) => {

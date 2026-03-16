@@ -9,6 +9,10 @@ const create_1 = require("./commands/create");
 const run_1 = require("./commands/run");
 const build_1 = require("./commands/build");
 const resources_1 = require("./commands/resources");
+const proxy_1 = require("./commands/proxy");
+const doctor_1 = require("./commands/doctor");
+const info_1 = require("./commands/info");
+const menu_1 = require("./commands/menu");
 const picocolors_1 = __importDefault(require("picocolors"));
 const child_process_1 = require("child_process");
 const program = new commander_1.Command();
@@ -26,7 +30,8 @@ program
     .description("An opinionated interactive wrapper around the NativeScript CLI")
     .version(pkg.version);
 program.addHelpText("before", FORGE_COLOR(ASCII_ART));
-program.addHelpText("before", picocolors_1.default.white(" NativeScript Forge CLI ") + FORGE_COLOR(`version ${pkg.version}\n`));
+program.addHelpText("before", picocolors_1.default.white(" NativeScript Forge CLI ") +
+    FORGE_COLOR(`version ${pkg.version}\n`));
 program
     .command("create [appName]")
     .description("Create a new NativeScript project with interactive prompts")
@@ -50,6 +55,30 @@ program
     .description("Generate application resources such as icons and splash screens")
     .action(async () => {
     await (0, resources_1.resourcesCommand)();
+});
+program
+    .command("proxy")
+    .description("Configure and manage proxy settings")
+    .action(async () => {
+    await (0, proxy_1.proxyCommand)();
+});
+program
+    .command("doctor")
+    .description("Check the environment for potential issues")
+    .action(async () => {
+    await (0, doctor_1.doctorCommand)();
+});
+program
+    .command("info")
+    .description("Display information about the current environment")
+    .action(async () => {
+    await (0, info_1.infoCommand)();
+});
+program
+    .command("menu")
+    .description("Show the main menu")
+    .action(async () => {
+    await (0, menu_1.menuCommand)();
 });
 program.on("command:*", (operands) => {
     const args = [...operands, ...program.args.slice(operands.length)];
