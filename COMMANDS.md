@@ -11,6 +11,7 @@ Detailed documentation for all NativeScript Forge CLI (`nsf`) commands.
 - [nsf menu](#nsf-menu)
 - [nsf create](#nsf-create)
 - [nsf run](#nsf-run)
+- [nsf debug](#nsf-debug)
 - [nsf build](#nsf-build)
 - [nsf resources](#nsf-resources)
 - [nsf proxy](#nsf-proxy)
@@ -104,6 +105,35 @@ nsf run
 | **Android App Bundle** | Produces and deploys an Android App Bundle (.aab).                                                                                                                          | `--aab`         |
 | **Force check**        | Skips compatibility checks and forces dependency installation.                                                                                                              | `--force`       |
 | **Environment flags**  | Allows passing additional flags like `aot`, `snapshot`, `uglify`, `report`, etc.                                                                                            | `--env.*`       |
+
+---
+
+## nsf debug
+
+Builds, deploys, and starts a debugging session for your NativeScript project using Chrome DevTools.
+
+### Usage
+
+```bash
+nsf debug
+```
+
+### Interactive Platform Selection
+
+- **Android**: Debug on Android devices or emulators.
+- **iOS**: Debug on iOS devices or simulators.
+
+### Interactive Options (Detailed)
+
+| Option                | Description                                                                            | Flag            |
+| :-------------------- | :------------------------------------------------------------------------------------- | :-------------- |
+| **Debug Break**       | Stops execution at the first JavaScript line until the debugger connects.              | `--debug-brk`   |
+| **Attach only**       | Attaches the debug tools to an already deployed and running app.                       | `--start`       |
+| **Select device**     | Pick from available devices/emulators to target a specific instance.                   | `--device <ID>` |
+| **Disable Watch**     | Changes in your code will not be livesynced during the debug session.                  | `--no-watch`    |
+| **Clean build**       | Forces rebuilding the native application before starting the debug session.            | `--clean`       |
+| **Custom Timeout**    | Set the number of seconds the CLI will wait for the debugger to boot (default is 90s). | `--timeout <N>` |
+| **Environment flags** | Allows passing additional flags like `aot`, `snapshot`, `uglify`, etc.                 | `--env.*`       |
 
 ---
 

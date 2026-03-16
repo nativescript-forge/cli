@@ -9,6 +9,7 @@ const ui_1 = require("../utils/ui");
 const picocolors_1 = __importDefault(require("picocolors"));
 const create_1 = require("./create");
 const run_1 = require("./run");
+const debug_1 = require("./debug");
 const build_1 = require("./build");
 const resources_1 = require("./resources");
 const proxy_1 = require("./proxy");
@@ -29,6 +30,11 @@ async function menuCommand() {
                 value: "run",
                 label: picocolors_1.default.bold("Run"),
                 hint: picocolors_1.default.dim("Run the project on a device/emulator"),
+            },
+            {
+                value: "debug",
+                label: picocolors_1.default.bold("Debug"),
+                hint: picocolors_1.default.dim("Debug the project on a device/emulator"),
             },
             {
                 value: "build",
@@ -67,6 +73,9 @@ async function menuCommand() {
             break;
         case "run":
             await (0, run_1.runCommand)();
+            break;
+        case "debug":
+            await (0, debug_1.debugCommand)();
             break;
         case "build":
             await (0, build_1.buildCommand)();

@@ -61,6 +61,10 @@ async function resourcesCommand() {
     s.stop(`Executing: ${picocolors_1.default.green(`ns ${args.join(" ")}`)}`);
     try {
         const child = (0, child_process_1.spawn)("ns", args, { stdio: "inherit", shell: true });
+        process.on("SIGINT", () => {
+            child.kill("SIGINT");
+            process.exit(0);
+        });
         await new Promise((resolve, reject) => {
             child.on("close", (code) => {
                 if (code === 0) {

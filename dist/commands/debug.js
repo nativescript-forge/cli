@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.runCommand = runCommand;
+exports.debugCommand = debugCommand;
 const prompts_1 = require("@clack/prompts");
 const child_process_1 = require("child_process");
 const picocolors_1 = __importDefault(require("picocolors"));
@@ -42,22 +42,17 @@ async function getAvailableDevices(platform) {
         return [];
     }
 }
-async function runCommand() {
-    (0, prompts_1.intro)((0, ui_1.BG_FORGE_COLOR)(" nsf run "));
+async function debugCommand() {
+    (0, prompts_1.intro)((0, ui_1.BG_FORGE_COLOR)(" nsf debug "));
     const platform = await (0, prompts_1.select)({
         message: "Select platform:",
         options: [
             {
                 value: "android",
                 label: "Android",
-                hint: "Run on Android devices/emulators",
+                hint: "Debug on Android devices/emulators",
             },
-            { value: "ios", label: "iOS", hint: "Run on iOS devices/simulators" },
-            {
-                value: "visionos",
-                label: "VisionOS",
-                hint: "Run on VisionOS simulators",
-            },
+            { value: "ios", label: "iOS", hint: "Debug on iOS devices/simulators" },
         ],
     });
     if ((0, prompts_1.isCancel)(platform)) {
@@ -68,14 +63,14 @@ async function runCommand() {
         message: "Select options (Space to select, Enter to confirm):",
         options: [
             {
-                value: "release",
-                label: "Release build",
-                hint: "Produces a production build with optimizations",
+                value: "debug-brk",
+                label: "Debug Break",
+                hint: "Stop execution at the first JS line",
             },
             {
-                value: "justlaunch",
-                label: "Just launch",
-                hint: "Launch app without printing output to console",
+                value: "start",
+                label: "Attach only",
+                hint: "Attach tools to an already running app",
             },
             {
                 value: "device",
@@ -83,24 +78,24 @@ async function runCommand() {
                 hint: "Pick from available devices/emulators",
             },
             {
-                value: "no-hmr",
-                label: "Disable HMR",
-                hint: "Disable Hot Module Replacement (restarts app on change)",
+                value: "no-watch",
+                label: "Disable Watch",
+                hint: "Changes will not be livesynced",
             },
             {
-                value: "aab",
-                label: "Android App Bundle",
-                hint: "Produces .aab instead of .apk for Android",
+                value: "clean",
+                label: "Clean build",
+                hint: "Force rebuilding the native application",
             },
             {
-                value: "force",
-                label: "Force check",
-                hint: "Skips compatibility checks and forces dependency install",
+                value: "timeout",
+                label: "Custom Timeout",
+                hint: "Wait time for debugger to boot (default 90s)",
             },
             {
                 value: "env",
                 label: "Environment flags",
-                hint: "Pass custom flags like --env.aot, --env.uglify, etc.",
+                hint: "Pass flags like --env.aot, --env.uglify, etc.",
             },
         ],
         required: false,
@@ -109,7 +104,7 @@ async function runCommand() {
         (0, prompts_1.cancel)(ui_1.UI_STRINGS.cancel);
         process.exit(0);
     }
-    const args = ["run", platform];
+    const args = ["debug", platform];
     let deviceId = "";
     let envFlags = [];
     for (const option of selectedOptions) {
@@ -192,6 +187,23 @@ async function runCommand() {
                 });
             }
         }
+        else if (option === "timeout") {
+            const timeoutVal = (await (0, prompts_1.text)({
+                message: "Enter timeout in seconds:",
+                placeholder: "90",
+                validate(value) {
+                    if (isNaN(Number(value)))
+                        return "Must be a number";
+                },
+            }));
+            if ((0, prompts_1.isCancel)(timeoutVal)) {
+                (0, prompts_1.cancel)(ui_1.UI_STRINGS.cancel);
+                process.exit(0);
+            }
+            if (timeoutVal) {
+                args.push("--timeout", timeoutVal);
+            }
+        }
         else {
             args.push(`--${option}`);
         }
@@ -199,10 +211,8 @@ async function runCommand() {
     const s = (0, prompts_1.spinner)();
     const cmdLine = `ns ${args.join(" ")}`;
     s.start(`Executing: ${picocolors_1.default.green(cmdLine)}`);
-    const child = (0, child_process_1.spawn)("ns", args, {
-        stdio: ["inherit", "pipe", "inherit"],
-        shell: true,
-    });
+    const child = (0, child_process_1.spawn)("ns", args, { stdio: ["inherit", "pipe", "inherit"], shell: true });
+    // Handle Ctrl+C (SIGINT)
     process.on("SIGINT", () => {
         child.kill("SIGINT");
         process.exit(0);
@@ -230,7 +240,7 @@ async function runCommand() {
             else {
                 (0, prompts_1.note)(`${picocolors_1.default.white("Summary:")}\n` +
                     `${picocolors_1.default.dim("  Platform: ")} ${picocolors_1.default.cyan(platform)}\n` +
-                    `${picocolors_1.default.dim("  Options:  ")} ${picocolors_1.default.cyan(selectedOptions.join(", ") || "Default")}`, "Run Finished");
+                    `${picocolors_1.default.dim("  Options:  ")} ${picocolors_1.default.cyan(selectedOptions.join(", ") || "Default")}`, "Debug Session Finished");
             }
             (0, prompts_1.outro)(ui_1.UI_STRINGS.outro);
             process.exit(code || 0);

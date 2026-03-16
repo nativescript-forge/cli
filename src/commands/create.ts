@@ -103,7 +103,15 @@ export async function createCommand(passedAppName?: string) {
   s.start(`Executing: ${pc.green(cmdLine)}`);
 
   try {
-    const child = spawn("ns", args, { stdio: ["inherit", "pipe", "inherit"], shell: true });
+    const child = spawn("ns", args, {
+      stdio: ["inherit", "pipe", "inherit"],
+      shell: true,
+    });
+
+    process.on("SIGINT", () => {
+      child.kill("SIGINT");
+      process.exit(0);
+    });
 
     let outputStarted = false;
 

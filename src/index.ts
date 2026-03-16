@@ -8,6 +8,7 @@ import { proxyCommand } from "./commands/proxy";
 import { doctorCommand } from "./commands/doctor";
 import { infoCommand } from "./commands/info";
 import { menuCommand } from "./commands/menu";
+import { debugCommand } from "./commands/debug";
 import pc from "picocolors";
 import { spawn } from "child_process";
 
@@ -49,6 +50,13 @@ program
   .description("Run the project on a device or emulator")
   .action(async () => {
     await runCommand();
+  });
+
+program
+  .command("debug")
+  .description("Debug the project on a device or emulator")
+  .action(async () => {
+    await debugCommand();
   });
 
 program

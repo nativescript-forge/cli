@@ -81,7 +81,14 @@ async function createCommand(passedAppName) {
     const cmdLine = `ns ${args.join(" ")}`;
     s.start(`Executing: ${picocolors_1.default.green(cmdLine)}`);
     try {
-        const child = (0, child_process_1.spawn)("ns", args, { stdio: ["inherit", "pipe", "inherit"], shell: true });
+        const child = (0, child_process_1.spawn)("ns", args, {
+            stdio: ["inherit", "pipe", "inherit"],
+            shell: true,
+        });
+        process.on("SIGINT", () => {
+            child.kill("SIGINT");
+            process.exit(0);
+        });
         let outputStarted = false;
         child.stdout.on("data", (data) => {
             if (!outputStarted) {

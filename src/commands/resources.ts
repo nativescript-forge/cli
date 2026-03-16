@@ -81,6 +81,11 @@ export async function resourcesCommand() {
   try {
     const child = spawn("ns", args, { stdio: "inherit", shell: true });
 
+    process.on("SIGINT", () => {
+      child.kill("SIGINT");
+      process.exit(0);
+    });
+
     await new Promise((resolve, reject) => {
       child.on("close", (code: number | null) => {
         if (code === 0) {

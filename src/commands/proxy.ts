@@ -130,6 +130,11 @@ export async function proxyCommand() {
     shell: true,
   });
 
+  process.on("SIGINT", () => {
+    child.kill("SIGINT");
+    process.exit(0);
+  });
+
   let fullOutput = "";
 
   child.stdout.on("data", (data) => {

@@ -13,6 +13,7 @@ const proxy_1 = require("./commands/proxy");
 const doctor_1 = require("./commands/doctor");
 const info_1 = require("./commands/info");
 const menu_1 = require("./commands/menu");
+const debug_1 = require("./commands/debug");
 const picocolors_1 = __importDefault(require("picocolors"));
 const child_process_1 = require("child_process");
 const program = new commander_1.Command();
@@ -43,6 +44,12 @@ program
     .description("Run the project on a device or emulator")
     .action(async () => {
     await (0, run_1.runCommand)();
+});
+program
+    .command("debug")
+    .description("Debug the project on a device or emulator")
+    .action(async () => {
+    await (0, debug_1.debugCommand)();
 });
 program
     .command("build")

@@ -3,6 +3,7 @@ import { BG_FORGE_COLOR, UI_STRINGS } from "../utils/ui";
 import pc from "picocolors";
 import { createCommand } from "./create";
 import { runCommand } from "./run";
+import { debugCommand } from "./debug";
 import { buildCommand } from "./build";
 import { resourcesCommand } from "./resources";
 import { proxyCommand } from "./proxy";
@@ -27,6 +28,11 @@ export async function menuCommand() {
         value: "run",
         label: pc.bold("Run"),
         hint: pc.dim("Run the project on a device/emulator"),
+      },
+      {
+        value: "debug",
+        label: pc.bold("Debug"),
+        hint: pc.dim("Debug the project on a device/emulator"),
       },
       {
         value: "build",
@@ -67,6 +73,9 @@ export async function menuCommand() {
       break;
     case "run":
       await runCommand();
+      break;
+    case "debug":
+      await debugCommand();
       break;
     case "build":
       await buildCommand();

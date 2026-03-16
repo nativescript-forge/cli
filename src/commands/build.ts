@@ -323,7 +323,15 @@ export async function buildCommand() {
   const cmdLine = `ns ${args.join(" ")}`;
   s.start(`Executing: ${pc.green(cmdLine)}`);
 
-  const child = spawn("ns", args, { stdio: ["inherit", "pipe", "inherit"], shell: true });
+  const child = spawn("ns", args, {
+    stdio: ["inherit", "pipe", "inherit"],
+    shell: true,
+  });
+
+  process.on("SIGINT", () => {
+    child.kill("SIGINT");
+    process.exit(0);
+  });
 
   let outputStarted = false;
 

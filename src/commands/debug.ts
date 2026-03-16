@@ -52,8 +52,8 @@ async function getAvailableDevices(
   }
 }
 
-export async function runCommand() {
-  intro(BG_FORGE_COLOR(" nsf run "));
+export async function debugCommand() {
+  intro(BG_FORGE_COLOR(" nsf debug "));
 
   const platform = await select({
     message: "Select platform:",
@@ -61,14 +61,9 @@ export async function runCommand() {
       {
         value: "android",
         label: "Android",
-        hint: "Run on Android devices/emulators",
+        hint: "Debug on Android devices/emulators",
       },
-      { value: "ios", label: "iOS", hint: "Run on iOS devices/simulators" },
-      {
-        value: "visionos",
-        label: "VisionOS",
-        hint: "Run on VisionOS simulators",
-      },
+      { value: "ios", label: "iOS", hint: "Debug on iOS devices/simulators" },
     ],
   });
 
@@ -81,14 +76,14 @@ export async function runCommand() {
     message: "Select options (Space to select, Enter to confirm):",
     options: [
       {
-        value: "release",
-        label: "Release build",
-        hint: "Produces a production build with optimizations",
+        value: "debug-brk",
+        label: "Debug Break",
+        hint: "Stop execution at the first JS line",
       },
       {
-        value: "justlaunch",
-        label: "Just launch",
-        hint: "Launch app without printing output to console",
+        value: "start",
+        label: "Attach only",
+        hint: "Attach tools to an already running app",
       },
       {
         value: "device",
@@ -96,24 +91,24 @@ export async function runCommand() {
         hint: "Pick from available devices/emulators",
       },
       {
-        value: "no-hmr",
-        label: "Disable HMR",
-        hint: "Disable Hot Module Replacement (restarts app on change)",
+        value: "no-watch",
+        label: "Disable Watch",
+        hint: "Changes will not be livesynced",
       },
       {
-        value: "aab",
-        label: "Android App Bundle",
-        hint: "Produces .aab instead of .apk for Android",
+        value: "clean",
+        label: "Clean build",
+        hint: "Force rebuilding the native application",
       },
       {
-        value: "force",
-        label: "Force check",
-        hint: "Skips compatibility checks and forces dependency install",
+        value: "timeout",
+        label: "Custom Timeout",
+        hint: "Wait time for debugger to boot (default 90s)",
       },
       {
         value: "env",
         label: "Environment flags",
-        hint: "Pass custom flags like --env.aot, --env.uglify, etc.",
+        hint: "Pass flags like --env.aot, --env.uglify, etc.",
       },
     ],
     required: false,
@@ -124,7 +119,7 @@ export async function runCommand() {
     process.exit(0);
   }
 
-  const args: string[] = ["run", platform as string];
+  const args: string[] = ["debug", platform as string];
   let deviceId = "";
   let envFlags: string[] = [];
 
@@ -215,6 +210,22 @@ export async function runCommand() {
           args.push(`--env.${flag}`);
         });
       }
+    } else if (option === "timeout") {
+      const timeoutVal = (await text({
+        message: "Enter timeout in seconds:",
+        placeholder: "90",
+        validate(value: string) {
+          if (isNaN(Number(value))) return "Must be a number";
+        },
+      })) as string;
+
+      if (isCancel(timeoutVal)) {
+        cancel(UI_STRINGS.cancel);
+        process.exit(0);
+      }
+      if (timeoutVal) {
+        args.push("--timeout", timeoutVal);
+      }
     } else {
       args.push(`--${option}`);
     }
@@ -224,11 +235,9 @@ export async function runCommand() {
   const cmdLine = `ns ${args.join(" ")}`;
   s.start(`Executing: ${pc.green(cmdLine)}`);
 
-  const child = spawn("ns", args, {
-    stdio: ["inherit", "pipe", "inherit"],
-    shell: true,
-  });
+  const child = spawn("ns", args, { stdio: ["inherit", "pipe", "inherit"], shell: true });
 
+  // Handle Ctrl+C (SIGINT)
   process.on("SIGINT", () => {
     child.kill("SIGINT");
     process.exit(0);
@@ -252,15 +261,15 @@ export async function runCommand() {
       } else {
         console.log(); // Blank line for spacing
       }
-
+      
       if (code !== 0 && code !== null) {
         console.log(pc.red(`Command exited with code ${code}`));
       } else {
         note(
           `${pc.white("Summary:")}\n` +
-            `${pc.dim("  Platform: ")} ${pc.cyan(platform as string)}\n` +
-            `${pc.dim("  Options:  ")} ${pc.cyan(selectedOptions.join(", ") || "Default")}`,
-          "Run Finished",
+          `${pc.dim("  Platform: ")} ${pc.cyan(platform as string)}\n` +
+          `${pc.dim("  Options:  ")} ${pc.cyan(selectedOptions.join(", ") || "Default")}`,
+          "Debug Session Finished"
         );
       }
       outro(UI_STRINGS.outro);

@@ -105,6 +105,10 @@ async function proxyCommand() {
         stdio: ["inherit", "pipe", "pipe"],
         shell: true,
     });
+    process.on("SIGINT", () => {
+        child.kill("SIGINT");
+        process.exit(0);
+    });
     let fullOutput = "";
     child.stdout.on("data", (data) => {
         fullOutput += data.toString();
