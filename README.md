@@ -12,7 +12,8 @@ An opinionated interactive wrapper around the NativeScript CLI, designed to stre
 
 ## Overview
 
-NativeScript Forge CLI (`nsf`) is built on top of the standard NativeScript CLI to provide a more guided and interactive experience for common tasks, starting with project creation.
+**_NativeScript Forge CLI (nsf)_** is a wrapper around the standard [NativeScript CLI](https://github.com/NativeScript/nativescript-cli) that provides a more guided and interactive experience for common tasks, starting with project creation. It works just like the usual **`ns`** command, but by simply adding the letter **`f`** it becomes **`nsf`**, giving developers a more visual and user-friendly CLI workflow. This tool also serves as the command-line counterpart of the NativeScript Forge GUI App (https://github.com/nativescript-forge/gui-app
+).
 
 ## Installation
 
