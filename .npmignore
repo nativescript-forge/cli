@@ -1,0 +1,22 @@
+# Source
+src/
+tsconfig.json
+tsup.config.json
+
+# Development tools
+.github/
+.eslintrc.json
+.prettierrc
+package-lock.json
+
+# Assets/Docs
+assets/
+command-mapping/
+COMMANDS.md
+LICENSE
+README.md
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
