@@ -8,6 +8,7 @@ const prompts_1 = require("@clack/prompts");
 const child_process_1 = require("child_process");
 const picocolors_1 = __importDefault(require("picocolors"));
 const ui_1 = require("../utils/ui");
+const process_1 = require("../utils/process");
 async function resourcesCommand() {
     (0, prompts_1.intro)((0, ui_1.BG_FORGE_COLOR)(" nsf resources "));
     const resourceType = await (0, prompts_1.select)({
@@ -61,12 +62,10 @@ async function resourcesCommand() {
     s.stop(`Executing: ${picocolors_1.default.green(`ns ${args.join(" ")}`)}`);
     try {
         const child = (0, child_process_1.spawn)("ns", args, { stdio: "inherit", shell: true });
-        process.on("SIGINT", () => {
-            child.kill("SIGINT");
-            process.exit(0);
-        });
+        const cleanup = (0, process_1.setupProcessCleanup)(child);
         await new Promise((resolve, reject) => {
             child.on("close", (code) => {
+                cleanup();
                 if (code === 0) {
                     resolve(true);
                 }

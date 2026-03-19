@@ -16,6 +16,7 @@ const menu_1 = require("./commands/menu");
 const debug_1 = require("./commands/debug");
 const picocolors_1 = __importDefault(require("picocolors"));
 const child_process_1 = require("child_process");
+const process_1 = require("./utils/process");
 const program = new commander_1.Command();
 const ASCII_ART = `
   _   _  ____  _____ 
@@ -89,7 +90,8 @@ program
 });
 program.on("command:*", (operands) => {
     const args = [...operands, ...program.args.slice(operands.length)];
-    (0, child_process_1.spawn)("ns", args, { stdio: "inherit", shell: true });
+    const child = (0, child_process_1.spawn)("ns", args, { stdio: "inherit", shell: true });
+    (0, process_1.setupProcessCleanup)(child);
 });
 program.configureHelp({
     // commandUsage: (command) => pc.yellow("Usage: ") + command.usage(),

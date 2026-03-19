@@ -8,6 +8,7 @@ const prompts_1 = require("@clack/prompts");
 const child_process_1 = require("child_process");
 const picocolors_1 = __importDefault(require("picocolors"));
 const ui_1 = require("../utils/ui");
+const process_1 = require("../utils/process");
 async function getAvailableDevices(platform) {
     try {
         const output = (0, child_process_1.execSync)(`ns device ${platform} --available-devices`, {
@@ -297,10 +298,7 @@ async function buildCommand() {
         stdio: ["inherit", "pipe", "inherit"],
         shell: true,
     });
-    process.on("SIGINT", () => {
-        child.kill("SIGINT");
-        process.exit(0);
-    });
+    const cleanup = (0, process_1.setupProcessCleanup)(child);
     let outputStarted = false;
     child.stdout.on("data", (data) => {
         if (!outputStarted) {
@@ -311,6 +309,7 @@ async function buildCommand() {
     });
     await new Promise((resolve) => {
         child.on("close", (code) => {
+            cleanup();
             if (!outputStarted) {
                 s.stop(`Executing: ${picocolors_1.default.green(cmdLine)}`);
             }

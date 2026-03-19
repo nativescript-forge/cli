@@ -8,6 +8,7 @@ const prompts_1 = require("@clack/prompts");
 const child_process_1 = require("child_process");
 const picocolors_1 = __importDefault(require("picocolors"));
 const ui_1 = require("../utils/ui");
+const process_1 = require("../utils/process");
 async function proxyCommand() {
     (0, prompts_1.intro)((0, ui_1.BG_FORGE_COLOR)(" nsf proxy "));
     const option = await (0, prompts_1.select)({
@@ -105,10 +106,7 @@ async function proxyCommand() {
         stdio: ["inherit", "pipe", "pipe"],
         shell: true,
     });
-    process.on("SIGINT", () => {
-        child.kill("SIGINT");
-        process.exit(0);
-    });
+    const cleanup = (0, process_1.setupProcessCleanup)(child);
     let fullOutput = "";
     child.stdout.on("data", (data) => {
         fullOutput += data.toString();
@@ -118,6 +116,7 @@ async function proxyCommand() {
     });
     await new Promise((resolve) => {
         child.on("close", (code) => {
+            cleanup();
             s.stop(`Executing: ${picocolors_1.default.green(cmdLine)}`);
             const result = fullOutput.trim();
             if (result) {

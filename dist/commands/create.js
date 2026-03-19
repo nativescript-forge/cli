@@ -9,6 +9,7 @@ const child_process_1 = require("child_process");
 const picocolors_1 = __importDefault(require("picocolors"));
 const constants_1 = require("../utils/constants");
 const ui_1 = require("../utils/ui");
+const process_1 = require("../utils/process");
 async function createCommand(passedAppName) {
     (0, prompts_1.intro)((0, ui_1.BG_FORGE_COLOR)(" nsf create "));
     let appName = passedAppName;
@@ -85,10 +86,7 @@ async function createCommand(passedAppName) {
             stdio: ["inherit", "pipe", "inherit"],
             shell: true,
         });
-        process.on("SIGINT", () => {
-            child.kill("SIGINT");
-            process.exit(0);
-        });
+        const cleanup = (0, process_1.setupProcessCleanup)(child);
         let outputStarted = false;
         child.stdout.on("data", (data) => {
             if (!outputStarted) {
@@ -99,6 +97,7 @@ async function createCommand(passedAppName) {
         });
         await new Promise((resolve, reject) => {
             child.on("close", (code) => {
+                cleanup();
                 if (!outputStarted) {
                     s.stop(`Executing: ${picocolors_1.default.green(cmdLine)}`);
                 }
