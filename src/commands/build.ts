@@ -11,6 +11,7 @@ import {
 import { spawn, execSync } from "child_process";
 import pc from "picocolors";
 import { BG_FORGE_COLOR, UI_STRINGS } from "../utils/ui";
+import { setupProcessCleanup } from "../utils/process";
 
 async function getAvailableDevices(
   platform: string,
@@ -328,10 +329,7 @@ export async function buildCommand() {
     shell: true,
   });
 
-  process.on("SIGINT", () => {
-    child.kill("SIGINT");
-    process.exit(0);
-  });
+  const cleanup = setupProcessCleanup(child);
 
   let outputStarted = false;
 
@@ -345,6 +343,7 @@ export async function buildCommand() {
 
   await new Promise((resolve) => {
     child.on("close", (code: number | null) => {
+      cleanup();
       if (!outputStarted) {
         s.stop(`Executing: ${pc.green(cmdLine)}`);
       }

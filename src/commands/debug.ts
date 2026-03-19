@@ -12,6 +12,7 @@ import {
 import { spawn, execSync } from "child_process";
 import pc from "picocolors";
 import { BG_FORGE_COLOR, UI_STRINGS } from "../utils/ui";
+import { setupProcessCleanup } from "../utils/process";
 
 async function getAvailableDevices(
   platform: string,
@@ -235,13 +236,12 @@ export async function debugCommand() {
   const cmdLine = `ns ${args.join(" ")}`;
   s.start(`Executing: ${pc.green(cmdLine)}`);
 
-  const child = spawn("ns", args, { stdio: ["inherit", "pipe", "inherit"], shell: true });
-
-  // Handle Ctrl+C (SIGINT)
-  process.on("SIGINT", () => {
-    child.kill("SIGINT");
-    process.exit(0);
+  const child = spawn("ns", args, {
+    stdio: ["inherit", "pipe", "inherit"],
+    shell: true,
   });
+
+  const cleanup = setupProcessCleanup(child);
 
   let outputStarted = false;
 
@@ -256,20 +256,21 @@ export async function debugCommand() {
 
   await new Promise((resolve) => {
     child.on("close", (code: number | null) => {
+      cleanup();
       if (!outputStarted) {
         s.stop(`Executing: ${pc.green(cmdLine)}`);
       } else {
         console.log(); // Blank line for spacing
       }
-      
+
       if (code !== 0 && code !== null) {
         console.log(pc.red(`Command exited with code ${code}`));
       } else {
         note(
           `${pc.white("Summary:")}\n` +
-          `${pc.dim("  Platform: ")} ${pc.cyan(platform as string)}\n` +
-          `${pc.dim("  Options:  ")} ${pc.cyan(selectedOptions.join(", ") || "Default")}`,
-          "Debug Session Finished"
+            `${pc.dim("  Platform: ")} ${pc.cyan(platform as string)}\n` +
+            `${pc.dim("  Options:  ")} ${pc.cyan(selectedOptions.join(", ") || "Default")}`,
+          "Debug Session Finished",
         );
       }
       outro(UI_STRINGS.outro);

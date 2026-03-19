@@ -11,6 +11,7 @@ import {
 import { spawn } from "child_process";
 import pc from "picocolors";
 import { BG_FORGE_COLOR, UI_STRINGS } from "../utils/ui";
+import { setupProcessCleanup } from "../utils/process";
 
 export async function resourcesCommand() {
   intro(BG_FORGE_COLOR(" nsf resources "));
@@ -81,13 +82,11 @@ export async function resourcesCommand() {
   try {
     const child = spawn("ns", args, { stdio: "inherit", shell: true });
 
-    process.on("SIGINT", () => {
-      child.kill("SIGINT");
-      process.exit(0);
-    });
+    const cleanup = setupProcessCleanup(child);
 
     await new Promise((resolve, reject) => {
       child.on("close", (code: number | null) => {
+        cleanup();
         if (code === 0) {
           resolve(true);
         } else {

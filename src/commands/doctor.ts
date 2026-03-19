@@ -2,6 +2,7 @@ import { intro, outro, spinner, cancel } from "@clack/prompts";
 import { spawn } from "child_process";
 import pc from "picocolors";
 import { BG_FORGE_COLOR, UI_STRINGS } from "../utils/ui";
+import { setupProcessCleanup } from "../utils/process";
 
 export async function doctorCommand() {
   intro(BG_FORGE_COLOR(" nsf doctor "));
@@ -15,10 +16,7 @@ export async function doctorCommand() {
     shell: true,
   });
 
-  process.on("SIGINT", () => {
-    child.kill("SIGINT");
-    process.exit(0);
-  });
+  const cleanup = setupProcessCleanup(child);
 
   let fullOutput = "";
 
@@ -32,6 +30,7 @@ export async function doctorCommand() {
 
   await new Promise((resolve) => {
     child.on("close", (code: number | null) => {
+      cleanup();
       s.stop(`Executing: ${pc.green(cmdLine)}`);
 
       const result = fullOutput.trim();

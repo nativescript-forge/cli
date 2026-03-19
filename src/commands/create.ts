@@ -12,6 +12,7 @@ import { spawn } from "child_process";
 import pc from "picocolors";
 import { TEMPLATE_MAPPING } from "../utils/constants";
 import { BG_FORGE_COLOR, UI_STRINGS } from "../utils/ui";
+import { setupProcessCleanup } from "../utils/process";
 
 export async function createCommand(passedAppName?: string) {
   intro(BG_FORGE_COLOR(" nsf create "));
@@ -108,10 +109,7 @@ export async function createCommand(passedAppName?: string) {
       shell: true,
     });
 
-    process.on("SIGINT", () => {
-      child.kill("SIGINT");
-      process.exit(0);
-    });
+    const cleanup = setupProcessCleanup(child);
 
     let outputStarted = false;
 
@@ -125,6 +123,7 @@ export async function createCommand(passedAppName?: string) {
 
     await new Promise((resolve, reject) => {
       child.on("close", (code: number | null) => {
+        cleanup();
         if (!outputStarted) {
           s.stop(`Executing: ${pc.green(cmdLine)}`);
         }

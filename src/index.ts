@@ -11,6 +11,7 @@ import { menuCommand } from "./commands/menu";
 import { debugCommand } from "./commands/debug";
 import pc from "picocolors";
 import { spawn } from "child_process";
+import { setupProcessCleanup } from "./utils/process";
 
 const program = new Command();
 
@@ -105,7 +106,8 @@ program
 
 program.on("command:*", (operands) => {
   const args = [...operands, ...program.args.slice(operands.length)];
-  spawn("ns", args, { stdio: "inherit", shell: true });
+  const child = spawn("ns", args, { stdio: "inherit", shell: true });
+  setupProcessCleanup(child);
 });
 
 program.configureHelp({
