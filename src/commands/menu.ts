@@ -9,9 +9,9 @@ import { resourcesCommand } from "./resources";
 import { proxyCommand } from "./proxy";
 import { doctorCommand } from "./doctor";
 import { infoCommand } from "./info";
+import pkg from "../../package.json";
 
 export async function menuCommand() {
-  const pkg = require("../../package.json");
   intro(
     `${BG_FORGE_COLOR(" NativeScript Forge ")} ${pc.dim(`v${pkg.version}`)}`,
   );

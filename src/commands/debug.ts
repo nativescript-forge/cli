@@ -254,7 +254,7 @@ export async function debugCommand() {
     process.stdout.write(data);
   });
 
-  await new Promise((resolve) => {
+  await new Promise((_resolve) => {
     child.on("close", (code: number | null) => {
       cleanup();
       if (!outputStarted) {

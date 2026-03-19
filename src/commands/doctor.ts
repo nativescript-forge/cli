@@ -1,4 +1,4 @@
-import { intro, outro, spinner, cancel } from "@clack/prompts";
+import { intro, outro, spinner } from "@clack/prompts";
 import { spawn } from "child_process";
 import pc from "picocolors";
 import { BG_FORGE_COLOR, UI_STRINGS } from "../utils/ui";
@@ -28,7 +28,7 @@ export async function doctorCommand() {
     fullOutput += data.toString();
   });
 
-  await new Promise((resolve) => {
+  await new Promise((_resolve) => {
     child.on("close", (code: number | null) => {
       cleanup();
       s.stop(`Executing: ${pc.green(cmdLine)}`);

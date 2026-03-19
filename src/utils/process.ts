@@ -1,7 +1,7 @@
 import { ChildProcess, execSync } from "child_process";
 
 /**
- * Robustly kills a child process and its sub-processes, 
+ * Robustly kills a child process and its sub-processes,
  * especially important on Windows when shell: true is used.
  */
 export function terminateProcess(child: ChildProcess) {

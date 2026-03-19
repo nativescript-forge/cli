@@ -30,7 +30,7 @@ export async function proxyCommand() {
     process.exit(0);
   }
 
-  let args: string[] = ["proxy"];
+  const args: string[] = ["proxy"];
 
   if (option === "show") {
     // No additional arguments needed for show
@@ -143,7 +143,7 @@ export async function proxyCommand() {
     fullOutput += data.toString();
   });
 
-  await new Promise((resolve) => {
+  await new Promise((_resolve) => {
     child.on("close", (code: number | null) => {
       cleanup();
       s.stop(`Executing: ${pc.green(cmdLine)}`);

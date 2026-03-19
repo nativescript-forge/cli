@@ -25,7 +25,7 @@ const ASCII_ART = `
 
 const FORGE_COLOR = (text: string) => `\x1b[38;2;249;168;37m${text}\x1b[0m`;
 
-const pkg = require("../package.json");
+import pkg from "../package.json";
 
 program
   .name("nsf")
