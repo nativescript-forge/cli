@@ -9,6 +9,7 @@ import { resourcesCommand } from "./resources";
 import { proxyCommand } from "./proxy";
 import { doctorCommand } from "./doctor";
 import { infoCommand } from "./info";
+import { pluginCommand } from "./plugin";
 import pkg from "../../package.json";
 
 export async function menuCommand() {
@@ -43,6 +44,11 @@ export async function menuCommand() {
         value: "resources",
         label: pc.bold("Resources"),
         hint: pc.dim("Generate icons and splash screens"),
+      },
+      {
+        value: "plugin",
+        label: pc.bold("Plugin"),
+        hint: pc.dim("Manage project plugins (add, remove, etc.)"),
       },
       {
         value: "proxy",
@@ -82,6 +88,9 @@ export async function menuCommand() {
       break;
     case "resources":
       await resourcesCommand();
+      break;
+    case "plugin":
+      await pluginCommand();
       break;
     case "proxy":
       await proxyCommand();

@@ -7,6 +7,7 @@ import { resourcesCommand } from "./commands/resources";
 import { proxyCommand } from "./commands/proxy";
 import { doctorCommand } from "./commands/doctor";
 import { infoCommand } from "./commands/info";
+import { pluginCommand } from "./commands/plugin";
 import { menuCommand } from "./commands/menu";
 import { debugCommand } from "./commands/debug";
 import pc from "picocolors";
@@ -74,6 +75,13 @@ program
   )
   .action(async () => {
     await resourcesCommand();
+  });
+
+program
+  .command("plugin")
+  .description("Manage project plugins (add, remove, update, build, create)")
+  .action(async () => {
+    await pluginCommand();
   });
 
 program

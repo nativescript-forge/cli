@@ -12,6 +12,7 @@ Detailed documentation for all NativeScript Forge CLI (`nsf`) commands.
 - [nsf create](#nsf-create)
 - [nsf build](#nsf-build)
 - [nsf resources](#nsf-resources)
+- [nsf plugin](#nsf-plugin)
 - [nsf proxy](#nsf-proxy)
 - [nsf doctor](#nsf-doctor)
 - [nsf info](#nsf-info)
@@ -138,6 +139,38 @@ nsf resources
 
 - For icons: `ns resources generate icons <source_image_path>`
 - For splash screens: `ns resources generate splashes <source_image_path> --background <color_code>`
+
+---
+
+## nsf plugin
+
+Manage NativeScript plugins for your project interactively.
+
+### Usage
+
+```bash
+nsf plugin
+```
+
+### Process
+
+1. **Select Category**: Choose between **Project Management** or **Plugin Development**.
+2. **Select Action**: Choose the specific action based on the category.
+3. **Input Plugin Name**: Required for Add, Remove, Update, and Create actions.
+
+### Actions
+
+#### Project Management
+
+- **List plugins**: Displays all installed plugins (`ns plugin`).
+- **Add plugin**: Installs a new plugin and its dependencies (`ns plugin add <name>`).
+- **Remove plugin**: Uninstalls a plugin and its dependencies (`ns plugin remove <name>`).
+- **Update plugin**: Reinstalls a plugin to update it (`ns plugin update <name>`).
+
+#### Plugin Development
+
+- **Build plugin**: Builds the Android parts of a plugin (`ns plugin build`).
+- **Create plugin**: Creates a new plugin project (`ns plugin create <name>`).
 
 ---
 
