@@ -6,7 +6,6 @@ import {
   spinner,
   isCancel,
   cancel,
-  note,
 } from "@clack/prompts";
 import { spawn } from "child_process";
 import pc from "picocolors";
@@ -88,7 +87,7 @@ export async function pluginCommand() {
     process.exit(0);
   }
 
-  let commandArgs: string[] = ["plugin"];
+  const commandArgs: string[] = ["plugin"];
   let pluginName: string | symbol = "";
 
   if (
@@ -141,7 +140,7 @@ export async function pluginCommand() {
     fullOutput += data.toString();
   });
 
-  await new Promise<void>((resolve) => {
+  await new Promise<void>((_resolve) => {
     child.on("close", (code: number | null) => {
       cleanup();
       s.stop(`Executing: ${pc.green(cmdLine)}`);
