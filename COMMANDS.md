@@ -10,13 +10,12 @@ Detailed documentation for all NativeScript Forge CLI (`nsf`) commands.
 
 - [nsf menu](#nsf-menu)
 - [nsf create](#nsf-create)
-- [nsf run](#nsf-run)
-- [nsf debug](#nsf-debug)
 - [nsf build](#nsf-build)
 - [nsf resources](#nsf-resources)
 - [nsf proxy](#nsf-proxy)
 - [nsf doctor](#nsf-doctor)
 - [nsf info](#nsf-info)
+- [Development Commands (Run & Debug)](#development-commands-run--debug)
 
 ---
 
@@ -68,72 +67,6 @@ nsf create [appName]
    - JavaScript, TypeScript, Angular, React, Solid, Svelte, Vue.
 4. **Template Selection**:
    - Choose from various templates like Blank, Drawer Navigation, Tab Navigation, Master-Detail, or Hello World (availability depends on the chosen flavor).
-
----
-
-## nsf run
-
-Runs your project on all connected devices or simulators for the selected platform. This command prepares, builds, and deploys the app.
-
-### Usage
-
-```bash
-nsf run
-```
-
-### Interactive Platform Selection
-
-- **Android**: Run on Android devices or emulators.
-- **iOS**: Run on iOS devices or simulators.
-- **VisionOS**: Run on VisionOS simulators.
-
-> [!TIP]
-> **Navigation Tips:**
->
-> - Use **Arrow Keys** to navigate.
-> - Press **Space** to select/unselect options in multiselect.
-> - Press **Enter** to confirm your selection.
-
-### Interactive Options (Detailed)
-
-| Option                 | Description                                                                                                                                                                 | Flag            |
-| :--------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------------- |
-| **Release build**      | Produces a release build by running webpack in production mode and native build in release mode.                                                                            | `--release`     |
-| **Just launch**        | Launches the application on the device without attaching the console output.                                                                                                | `--justlaunch`  |
-| **Select device**      | Automatically detects available devices and lets you pick from a list. Includes options to **Check Again** or **Continue** to let NativeScript CLI handle it automatically. | `--device <ID>` |
-| **Disable HMR**        | Disables Hot Module Replacement. Restarts the whole app on code change.                                                                                                     | `--no-hmr`      |
-| **Android App Bundle** | Produces and deploys an Android App Bundle (.aab).                                                                                                                          | `--aab`         |
-| **Force check**        | Skips compatibility checks and forces dependency installation.                                                                                                              | `--force`       |
-| **Environment flags**  | Allows passing additional flags like `aot`, `snapshot`, `uglify`, `report`, etc.                                                                                            | `--env.*`       |
-
----
-
-## nsf debug
-
-Builds, deploys, and starts a debugging session for your NativeScript project using Chrome DevTools.
-
-### Usage
-
-```bash
-nsf debug
-```
-
-### Interactive Platform Selection
-
-- **Android**: Debug on Android devices or emulators.
-- **iOS**: Debug on iOS devices or simulators.
-
-### Interactive Options (Detailed)
-
-| Option                | Description                                                                            | Flag            |
-| :-------------------- | :------------------------------------------------------------------------------------- | :-------------- |
-| **Debug Break**       | Stops execution at the first JavaScript line until the debugger connects.              | `--debug-brk`   |
-| **Attach only**       | Attaches the debug tools to an already deployed and running app.                       | `--start`       |
-| **Select device**     | Pick from available devices/emulators to target a specific instance.                   | `--device <ID>` |
-| **Disable Watch**     | Changes in your code will not be livesynced during the debug session.                  | `--no-watch`    |
-| **Clean build**       | Forces rebuilding the native application before starting the debug session.            | `--clean`       |
-| **Custom Timeout**    | Set the number of seconds the CLI will wait for the debugger to boot (default is 90s). | `--timeout <N>` |
-| **Environment flags** | Allows passing additional flags like `aot`, `snapshot`, `uglify`, etc.                 | `--env.*`       |
 
 ---
 
@@ -261,3 +194,67 @@ Display information about the current environment.
 ```bash
 nsf info
 ```
+
+---
+
+## Development Commands (Run & Debug)
+
+> [!WARNING]
+> **Important: Termination Issues & Recommendation**
+> The `nsf run` and `nsf debug` commands are currently difficult to terminate cleanly via the CLI once they are running.
+>
+> **Main Recommendation:**
+> It is highly recommended to use the native NativeScript CLI commands directly for a more stable experience when running and debugging your applications:
+>
+> - For Run: `ns run <platform>` (e.g., `ns run android`)
+> - For Debug: `ns debug <platform>` (e.g., `ns debug android`)
+>
+> The commands below can still be used if you prefer the interactive `nsf` interface, but please be aware of these termination limitations.
+
+### nsf run
+
+Runs your project on all connected devices or simulators for the selected platform. This command prepares, builds, and deploys the app.
+
+#### Usage
+
+```bash
+nsf run
+```
+
+#### Interactive Platform Selection
+
+- **Android**: Run on Android devices or emulators.
+- **iOS**: Run on iOS devices or simulators.
+- **VisionOS**: Run on VisionOS simulators.
+
+> [!TIP]
+> **Navigation Tips:**
+>
+> - Use **Arrow Keys** to navigate.
+> - Press **Space** to select/unselect options in multiselect.
+> - Press **Enter** to confirm your selection.
+
+#### Interactive Options
+
+For a detailed list of interactive options and their corresponding CLI flags, please refer to the [RUN.md](./command-mapping/RUN.md) command mapping documentation.
+
+---
+
+### nsf debug
+
+Builds, deploys, and starts a debugging session for your NativeScript project using Chrome DevTools.
+
+#### Usage
+
+```bash
+nsf debug
+```
+
+#### Interactive Platform Selection
+
+- **Android**: Debug on Android devices or emulators.
+- **iOS**: Debug on iOS devices or simulators.
+
+#### Interactive Options
+
+For a detailed list of interactive options and their corresponding CLI flags, please refer to the [DEBUG.md](./command-mapping/DEBUG.md) command mapping documentation.
