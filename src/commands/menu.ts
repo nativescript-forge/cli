@@ -10,6 +10,7 @@ import { proxyCommand } from "./proxy";
 import { doctorCommand } from "./doctor";
 import { infoCommand } from "./info";
 import { pluginCommand } from "./plugin";
+import { nativeCommand } from "./native";
 import pkg from "../../package.json";
 
 export async function menuCommand() {
@@ -49,6 +50,11 @@ export async function menuCommand() {
         value: "plugin",
         label: pc.bold("Plugin"),
         hint: pc.dim("Manage project plugins (add, remove, etc.)"),
+      },
+      {
+        value: "native",
+        label: pc.bold("Native"),
+        hint: pc.dim("Manage platform language classes (Swift, Kotlin, etc.)"),
       },
       {
         value: "proxy",
@@ -91,6 +97,9 @@ export async function menuCommand() {
       break;
     case "plugin":
       await pluginCommand();
+      break;
+    case "native":
+      await nativeCommand();
       break;
     case "proxy":
       await proxyCommand();

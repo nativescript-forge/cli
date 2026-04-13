@@ -14,6 +14,7 @@ Detailed documentation for all NativeScript Forge CLI (`nsf`) commands.
 - [nsf resources](#nsf-resources)
 - [nsf plugin](#nsf-plugin)
 - [nsf proxy](#nsf-proxy)
+- [nsf native](#nsf-native)
 - [nsf doctor](#nsf-doctor)
 - [nsf info](#nsf-info)
 - [Development Commands (Run & Debug)](#development-commands-run--debug)
@@ -203,6 +204,28 @@ nsf proxy
 > - **NPM**: [https://docs.npmjs.com/misc/config#https-proxy](https://docs.npmjs.com/misc/config#https-proxy)
 > - **Gradle**: [https://docs.gradle.org/3.3/userguide/build_environment.html#sec:accessing_the_web_via_a_proxy](https://docs.gradle.org/3.3/userguide/build_environment.html#sec:accessing_the_web_via_a_proxy)
 > - **Docker**: [https://docs.docker.com/network/proxy/](https://docs.docker.com/network/proxy/)
+
+---
+
+## nsf native
+
+Create and manage platform language classes or utilities for your NativeScript project.
+
+### Usage
+
+```bash
+nsf native
+```
+
+### Process
+
+1. **Select Action**: Choose between **Add Native Code** or **Native Usage**.
+2. **Add Native Code**:
+   - **Select Language**: Swift, Objective-C, Kotlin, or Java.
+   - **Input Class Name**: Enter the name of the class (use package name for Android, e.g., `com.company.MyClass`).
+3. **Native Usage**:
+   - Scans the project for existing native code.
+   - Select a file to see how to call it from NativeScript.
 
 ---
 

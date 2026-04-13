@@ -8,6 +8,7 @@ import { proxyCommand } from "./commands/proxy";
 import { doctorCommand } from "./commands/doctor";
 import { infoCommand } from "./commands/info";
 import { pluginCommand } from "./commands/plugin";
+import { nativeCommand } from "./commands/native";
 import { menuCommand } from "./commands/menu";
 import { debugCommand } from "./commands/debug";
 import pc from "picocolors";
@@ -82,6 +83,15 @@ program
   .description("Manage project plugins (add, remove, update, build, create)")
   .action(async () => {
     await pluginCommand();
+  });
+
+program
+  .command("native")
+  .description(
+    "Create and manage platform language classes (Swift, Kotlin, etc.)",
+  )
+  .action(async () => {
+    await nativeCommand();
   });
 
 program
