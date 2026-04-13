@@ -186,7 +186,7 @@ async function nativeUsage() {
             const relativePath = path.relative(androidSrc, fullPath);
             const pkgName = relativePath
               .replace(/\.(kt|java)$/, "")
-              .replace(/[\\\/]/g, ".");
+              .replace(/[\\/]/g, ".");
             files.push({
               label: pc.green(`[Android] ${pkgName}`),
               value: fullPath,
