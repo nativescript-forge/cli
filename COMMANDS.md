@@ -211,6 +211,10 @@ nsf proxy
 
 Create and manage platform language classes or utilities for your NativeScript project.
 
+> [!TIP]
+> **NativeScript 8.8+ Reference**
+> This command is based on the `ns native` feature introduced in NativeScript 8.8. For more details, see the [official announcement](https://blog.nativescript.org/nativescript-8-8-announcement/#ns-native).
+
 ### Usage
 
 ```bash
