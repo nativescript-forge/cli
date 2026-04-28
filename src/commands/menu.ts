@@ -11,6 +11,7 @@ import { doctorCommand } from "./doctor";
 import { infoCommand } from "./info";
 import { pluginCommand } from "./plugin";
 import { nativeCommand } from "./native";
+import { pmCommand } from "./pm";
 import pkg from "../../package.json";
 
 export async function menuCommand() {
@@ -22,44 +23,19 @@ export async function menuCommand() {
     message: "Select a command to run:",
     options: [
       {
-        value: "create",
-        label: pc.bold("Create"),
-        hint: pc.dim("Create a new NativeScript project"),
-      },
-      {
-        value: "run",
-        label: pc.bold("Run"),
-        hint: pc.dim("Run the project on a device/emulator"),
-      },
-      {
-        value: "debug",
-        label: pc.bold("Debug"),
-        hint: pc.dim("Debug the project on a device/emulator"),
-      },
-      {
         value: "build",
         label: pc.bold("Build"),
         hint: pc.dim("Build the project for Android/iOS"),
       },
       {
-        value: "resources",
-        label: pc.bold("Resources"),
-        hint: pc.dim("Generate icons and splash screens"),
+        value: "create",
+        label: pc.bold("Create"),
+        hint: pc.dim("Create a new NativeScript project"),
       },
       {
-        value: "plugin",
-        label: pc.bold("Plugin"),
-        hint: pc.dim("Manage project plugins (add, remove, etc.)"),
-      },
-      {
-        value: "native",
-        label: pc.bold("Native"),
-        hint: pc.dim("Manage platform language classes (Swift, Kotlin, etc.)"),
-      },
-      {
-        value: "proxy",
-        label: pc.bold("Proxy"),
-        hint: pc.dim("Manage proxy settings"),
+        value: "debug",
+        label: pc.bold("Debug"),
+        hint: pc.dim("Debug the project on a device/emulator"),
       },
       {
         value: "doctor",
@@ -71,6 +47,36 @@ export async function menuCommand() {
         label: pc.bold("Info"),
         hint: pc.dim("System and environment information"),
       },
+      {
+        value: "native",
+        label: pc.bold("Native"),
+        hint: pc.dim("Manage platform language classes (Swift, Kotlin, etc.)"),
+      },
+      {
+        value: "plugin",
+        label: pc.bold("Plugin"),
+        hint: pc.dim("Manage project plugins (add, remove, etc.)"),
+      },
+      {
+        value: "pm",
+        label: pc.bold("Package Manager"),
+        hint: pc.dim("Manage default package manager"),
+      },
+      {
+        value: "proxy",
+        label: pc.bold("Proxy"),
+        hint: pc.dim("Manage proxy settings"),
+      },
+      {
+        value: "resources",
+        label: pc.bold("Resources"),
+        hint: pc.dim("Generate icons and splash screens"),
+      },
+      {
+        value: "run",
+        label: pc.bold("Run"),
+        hint: pc.dim("Run the project on a device/emulator"),
+      },
     ],
   });
 
@@ -80,35 +86,38 @@ export async function menuCommand() {
   }
 
   switch (command) {
-    case "create":
-      await createCommand();
-      break;
-    case "run":
-      await runCommand();
-      break;
-    case "debug":
-      await debugCommand();
-      break;
     case "build":
       await buildCommand();
       break;
-    case "resources":
-      await resourcesCommand();
+    case "create":
+      await createCommand();
       break;
-    case "plugin":
-      await pluginCommand();
-      break;
-    case "native":
-      await nativeCommand();
-      break;
-    case "proxy":
-      await proxyCommand();
+    case "debug":
+      await debugCommand();
       break;
     case "doctor":
       await doctorCommand();
       break;
     case "info":
       await infoCommand();
+      break;
+    case "native":
+      await nativeCommand();
+      break;
+    case "pm":
+      await pmCommand();
+      break;
+    case "plugin":
+      await pluginCommand();
+      break;
+    case "proxy":
+      await proxyCommand();
+      break;
+    case "resources":
+      await resourcesCommand();
+      break;
+    case "run":
+      await runCommand();
       break;
   }
 }

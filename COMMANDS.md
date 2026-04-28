@@ -17,6 +17,7 @@ Detailed documentation for all NativeScript Forge CLI (`nsf`) commands.
 - [nsf native](#nsf-native)
 - [nsf doctor](#nsf-doctor)
 - [nsf info](#nsf-info)
+- [nsf pm](#nsf-pm)
 - [Development Commands (Run & Debug)](#development-commands-run--debug)
 
 ---
@@ -254,6 +255,42 @@ Display information about the current environment.
 ```bash
 nsf info
 ```
+
+---
+
+## nsf pm
+
+Manage the default package manager for NativeScript.
+
+### Usage
+
+```bash
+nsf pm get
+```
+
+or
+
+```bash
+nsf pm set
+```
+
+### Subcommands
+
+#### 1. nsf pm get
+
+Displays the package manager that is currently set as the default in your NativeScript environment.
+
+- **Equivalent CLI Command**: `ns package-manager get`
+
+#### 2. nsf pm set
+
+Interactively scans your system for available package managers and allows you to select one to set as the default.
+
+- **Process**:
+    1. Scans for `npm`, `yarn`, `pnpm`, and `bun`.
+    2. Displays a list of those found on your system.
+    3. Prompts you to select your preferred package manager.
+- **Equivalent CLI Command**: `ns package-manager set <PM_NAME>`
 
 ---
 

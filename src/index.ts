@@ -11,6 +11,7 @@ import { pluginCommand } from "./commands/plugin";
 import { nativeCommand } from "./commands/native";
 import { menuCommand } from "./commands/menu";
 import { debugCommand } from "./commands/debug";
+import { pmCommand, pmGetCommand, pmSetCommand } from "./commands/pm";
 import pc from "picocolors";
 import { spawn } from "child_process";
 import { setupProcessCleanup } from "./utils/process";
@@ -113,6 +114,25 @@ program
   .description("Display information about the current environment")
   .action(async () => {
     await infoCommand();
+  });
+
+const pm = program
+  .command("pm")
+  .description("Manage the default package manager (get/set)")
+  .action(async () => {
+    await pmCommand();
+  });
+
+pm.command("get")
+  .description("Get information about the default package manager")
+  .action(async () => {
+    await pmGetCommand();
+  });
+
+pm.command("set")
+  .description("Set the default package manager with interactive selection")
+  .action(async () => {
+    await pmSetCommand();
   });
 
 program
