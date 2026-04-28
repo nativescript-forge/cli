@@ -1,5 +1,12 @@
-import { intro, outro, select, spinner, isCancel, cancel } from "@clack/prompts";
-import { spawn, spawnSync, exec } from "child_process";
+import {
+  intro,
+  outro,
+  select,
+  spinner,
+  isCancel,
+  cancel,
+} from "@clack/prompts";
+import { spawn, exec } from "child_process";
 import pc from "picocolors";
 import { BG_FORGE_COLOR, UI_STRINGS } from "../utils/ui";
 import { setupProcessCleanup } from "../utils/process";
@@ -181,7 +188,9 @@ export async function pmSetCommand(showIntro = true) {
         console.log(pc.red(`Command exited with code ${code}`));
       } else {
         console.log(
-          pc.green(`Successfully set ${selectedPM} as default package manager!`),
+          pc.green(
+            `Successfully set ${selectedPM} as default package manager!`,
+          ),
         );
       }
 
