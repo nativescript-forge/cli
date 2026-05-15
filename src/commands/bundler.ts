@@ -12,7 +12,15 @@ import { spawn } from "child_process";
 import pc from "picocolors";
 import { BG_FORGE_COLOR, UI_STRINGS } from "../utils/ui";
 import { setupProcessCleanup } from "../utils/process";
-import { readFileSync, existsSync, writeFileSync, renameSync, mkdirSync, copyFileSync, readdirSync } from "fs";
+import {
+  readFileSync,
+  existsSync,
+  writeFileSync,
+  renameSync,
+  mkdirSync,
+  copyFileSync,
+  readdirSync,
+} from "fs";
 import path from "path";
 
 export async function bundlerCommand() {
@@ -25,14 +33,14 @@ export async function bundlerCommand() {
   }
 
   const pkg = JSON.parse(readFileSync(pkgPath, "utf-8"));
-  
+
   const currentBundler = detectBundler(pkg);
   const flavor = detectFlavor(pkg);
 
   console.log(
     `${pc.yellow("◇")} ${pc.bold("Current Status:")}\n` +
-    `  ${pc.dim("Bundler: ")} ${pc.cyan(currentBundler === "webpack" ? "Webpack (Classic)" : currentBundler === "vite" ? "Vite (Modern)" : "Unknown")}\n` +
-    `  ${pc.dim("Flavor:  ")} ${pc.cyan(flavor.charAt(0).toUpperCase() + flavor.slice(1))}\n`
+      `  ${pc.dim("Bundler: ")} ${pc.cyan(currentBundler === "webpack" ? "Webpack (Classic)" : currentBundler === "vite" ? "Vite (Modern)" : "Unknown")}\n` +
+      `  ${pc.dim("Flavor:  ")} ${pc.cyan(flavor.charAt(0).toUpperCase() + flavor.slice(1))}\n`,
   );
 
   const targetBundler = currentBundler === "webpack" ? "vite" : "webpack";
@@ -73,7 +81,10 @@ export async function bundlerCommand() {
 
   if (action === "restore") {
     const allBackups = [
-      ...webpackBackups.map((b) => ({ timestamp: b, type: "webpack" as const })),
+      ...webpackBackups.map((b) => ({
+        timestamp: b,
+        type: "webpack" as const,
+      })),
       ...viteBackups.map((b) => ({ timestamp: b, type: "vite" as const })),
     ].sort((a, b) => b.timestamp.localeCompare(a.timestamp));
 
@@ -89,7 +100,7 @@ export async function bundlerCommand() {
       cancel(UI_STRINGS.cancel);
       process.exit(0);
     }
-    
+
     const parsed = JSON.parse(selected as string);
     selectedBackupTimestamp = parsed.timestamp;
     selectedBackupType = parsed.type;
@@ -98,27 +109,35 @@ export async function bundlerCommand() {
   const s = spinner();
   s.start(`Backing up current configuration...`);
   backupProject(currentBundler as "webpack" | "vite");
-  
+
   if (action === "restore") {
-    s.message(`Restoring ${pc.green(selectedBackupType)} config from ${selectedBackupTimestamp}...`);
+    s.message(
+      `Restoring ${pc.green(selectedBackupType)} config from ${selectedBackupTimestamp}...`,
+    );
   } else {
     s.message(`Switching to ${pc.green(targetBundler)}...`);
   }
 
   try {
     if (action === "restore") {
-      await performRestore(selectedBackupType, selectedBackupTimestamp, flavor, s);
+      await performRestore(
+        selectedBackupType,
+        selectedBackupTimestamp,
+        flavor,
+        s,
+      );
     } else {
       await performSwitch(targetBundler, flavor, s);
     }
     s.stop(
       `${action === "restore" ? "Restored" : "Switched"} to ${pc.green(
-        action === "restore" ? selectedBackupType : targetBundler
+        action === "restore" ? selectedBackupType : targetBundler,
       )} successfully!`,
     );
-    
+
     const runClean = await confirm({
-      message: "Would you like to run 'ns clean' now? (Recommended to avoid crashes)",
+      message:
+        "Would you like to run 'ns clean' now? (Recommended to avoid crashes)",
       initialValue: true,
     });
 
@@ -130,14 +149,14 @@ export async function bundlerCommand() {
 
     note(
       `${pc.white("Summary:")}\n` +
-      `${pc.dim("  Previous: ")} ${pc.strikethrough(pc.red(currentBundler))}\n` +
-      `${pc.dim("  Current:  ")} ${pc.green(action === "restore" ? selectedBackupType : targetBundler)}\n\n` +
-      `${pc.yellow(pc.bold("Recommendation:"))}\n` +
-      `  Always run ${pc.cyan("ns clean")} after switching bundlers to\n` +
-      `  ensure all old build artifacts are removed.\n\n` +
-      `${pc.white("Next steps:")}\n` +
-      pc.cyan(`  ns run android|ios`),
-      "Success"
+        `${pc.dim("  Previous: ")} ${pc.strikethrough(pc.red(currentBundler))}\n` +
+        `${pc.dim("  Current:  ")} ${pc.green(action === "restore" ? selectedBackupType : targetBundler)}\n\n` +
+        `${pc.yellow(pc.bold("Recommendation:"))}\n` +
+        `  Always run ${pc.cyan("ns clean")} after switching bundlers to\n` +
+        `  ensure all old build artifacts are removed.\n\n` +
+        `${pc.white("Next steps:")}\n` +
+        pc.cyan(`  ns run android|ios`),
+      "Success",
     );
 
     outro(UI_STRINGS.outro);
@@ -165,7 +184,11 @@ function detectFlavor(pkg: any): string {
   return "typescript";
 }
 
-async function performSwitch(target: "webpack" | "vite", flavor: string, s: any) {
+async function performSwitch(
+  target: "webpack" | "vite",
+  flavor: string,
+  s: any,
+) {
   const pm = await getPackageManager();
   const installCmd = pm === "npm" ? "install" : "add";
   const uninstallCmd = pm === "npm" ? "uninstall" : "remove";
@@ -215,7 +238,7 @@ function backupProject(currentBundler: "webpack" | "vite") {
     "backups",
     "bundler",
     currentBundler,
-    timestamp
+    timestamp,
   );
 
   // Create directory structure
@@ -248,14 +271,27 @@ function backupProject(currentBundler: "webpack" | "vite") {
 }
 
 function getAvailableBackups(bundler: string): string[] {
-  const backupsDir = path.join(process.cwd(), ".nsforge", "backups", "bundler", bundler);
+  const backupsDir = path.join(
+    process.cwd(),
+    ".nsforge",
+    "backups",
+    "bundler",
+    bundler,
+  );
   if (existsSync(backupsDir)) {
-    return readdirSync(backupsDir).filter(f => existsSync(path.join(backupsDir, f)));
+    return readdirSync(backupsDir).filter((f) =>
+      existsSync(path.join(backupsDir, f)),
+    );
   }
   return [];
 }
 
-async function performRestore(target: "webpack" | "vite", timestamp: string, flavor: string, s: any) {
+async function performRestore(
+  target: "webpack" | "vite",
+  timestamp: string,
+  flavor: string,
+  s: any,
+) {
   const pm = await getPackageManager();
   const installCmd = pm === "npm" ? "install" : "add";
   const uninstallCmd = pm === "npm" ? "uninstall" : "remove";
@@ -272,7 +308,14 @@ async function performRestore(target: "webpack" | "vite", timestamp: string, fla
 
   // 3. Restore files from backup
   s.message(`Copying files from backup...`);
-  const backupDir = path.join(process.cwd(), ".nsforge", "backups", "bundler", target, timestamp);
+  const backupDir = path.join(
+    process.cwd(),
+    ".nsforge",
+    "backups",
+    "bundler",
+    target,
+    timestamp,
+  );
   const files = readdirSync(backupDir);
   for (const file of files) {
     copyFileSync(path.join(backupDir, file), path.join(process.cwd(), file));
@@ -286,15 +329,19 @@ function updateNativeScriptConfig(target: "webpack" | "vite", s: any) {
     if (target === "vite") {
       // Remove webpackConfigPath if it exists
       if (content.includes("webpackConfigPath")) {
-        s.message(`Cleaning up ${pc.yellow("nativescript.config.ts")} for Vite...`);
+        s.message(
+          `Cleaning up ${pc.yellow("nativescript.config.ts")} for Vite...`,
+        );
         // Matches webpackConfigPath: '...', or webpackConfigPath: "...", with optional trailing comma and spaces
-        content = content.replace(/\s*webpackConfigPath:\s*['"].*['"],?\s*/g, "\n  ");
+        content = content.replace(
+          /\s*webpackConfigPath:\s*['"].*['"],?\s*/g,
+          "\n  ",
+        );
         writeFileSync(configPath, content);
       }
     }
   }
 }
-
 
 function getViteConfigTemplate(flavor: string): string {
   switch (flavor) {
