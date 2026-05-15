@@ -10,8 +10,8 @@ The `nsf bundler` command automates the process of switching between Webpack and
 
 | Interactive Action | Underlying Operations | Description |
 | :--- | :--- | :--- |
-| **Switch to Vite** | `ns package-manager set <pm> uninstall @nativescript/webpack` <br> `ns package-manager set <pm> install @nativescript/vite -D` | Removes Webpack and installs Vite as a dev dependency. |
-| **Switch to Webpack** | `ns package-manager set <pm> uninstall @nativescript/vite` <br> `ns package-manager set <pm> install @nativescript/webpack -D` | Removes Vite and installs Webpack as a dev dependency. |
+| **Switch to Vite** | `<pm> uninstall @nativescript/webpack` <br> `<pm> install @nativescript/vite -D` | Removes Webpack and installs Vite as a dev dependency. |
+| **Switch to Webpack** | `<pm> uninstall @nativescript/vite` <br> `<pm> install @nativescript/webpack -D` | Removes Vite and installs Webpack as a dev dependency. |
 | **Restore Config** | `copy <backup_path> <project_root>` | Restores a specific configuration snapshot from `.nsforge`. |
 | **Clean Project** | `ns clean` | Removes platform build artifacts (highly recommended after switching). |
 
