@@ -12,6 +12,7 @@ import { nativeCommand } from "./commands/native";
 import { menuCommand } from "./commands/menu";
 import { debugCommand } from "./commands/debug";
 import { pmCommand, pmGetCommand, pmSetCommand } from "./commands/pm";
+import { bundlerCommand } from "./commands/bundler";
 import pc from "picocolors";
 import { spawn } from "child_process";
 import { setupProcessCleanup } from "./utils/process";
@@ -114,6 +115,14 @@ program
   .description("Display information about the current environment")
   .action(async () => {
     await infoCommand();
+  });
+
+program
+  .command("bundler")
+  .alias("app-bundle")
+  .description("Switch between Webpack (Classic) and Vite (Modern) bundlers")
+  .action(async () => {
+    await bundlerCommand();
   });
 
 const pm = program

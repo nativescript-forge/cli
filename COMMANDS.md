@@ -18,6 +18,7 @@ Detailed documentation for all NativeScript Forge CLI (`nsf`) commands.
 - [nsf doctor](#nsf-doctor)
 - [nsf info](#nsf-info)
 - [nsf pm](#nsf-pm)
+- [nsf bundler](#nsf-bundler)
 - [Development Commands (Run & Debug)](#development-commands-run--debug)
 
 ---
@@ -291,6 +292,58 @@ Interactively scans your system for available package managers and allows you to
     2. Displays a list of those found on your system.
     3. Prompts you to select your preferred package manager.
 - **Equivalent CLI Command**: `ns package-manager set <PM_NAME>`
+
+> [!TIP]
+> **pnpm Optimization**
+> If you select **pnpm**, `nsf` will automatically create/update a `.npmrc` file in your project root with `node-linker=hoisted`. This ensures that `pnpm` uses a flat `node_modules` structure, which is required for NativeScript to function correctly.
+
+---
+
+## nsf bundler
+
+Switch between **Webpack (Classic)** and **Vite (Modern)** bundlers interactively, with automatic configuration and backup management.
+
+### Usage
+
+```bash
+nsf bundler
+```
+
+or using the alias:
+
+```bash
+nsf app-bundle
+```
+
+### Features
+
+#### 1. Instant Switch
+Detects your current bundler and offers to switch to the alternative (e.g., if you are using Webpack, it suggests Vite).
+
+#### 2. Automatic Configuration
+- **Vite**: Automatically generates a `vite.config.ts` tailored to your project's flavor (Angular, Vue, React, Svelte, or TypeScript).
+- **Webpack**: Generates a default `webpack.config.js` if missing.
+- **Config Sync**: Automatically cleans up `nativescript.config.ts` (e.g., removing `webpackConfigPath` when moving to Vite) to ensure compatibility.
+
+#### 3. Smart Backup System
+Before any changes are made, `nsf` creates a snapshot of your current configuration in the `.nsforge/backups/bundler/` directory.
+- **Copied**: `package.json` and `nativescript.config.ts` are copied to the backup folder.
+- **Moved (Cut)**: The current bundler's config file (`webpack.config.js` or `vite.config.ts`) is moved to the backup folder to prevent conflicts in the root.
+
+#### 4. Restore from Backup
+If backups exist in `.nsforge`, a **Restore Config from Backup** option will appear in the menu. This allows you to:
+- See a list of all available Webpack and Vite backups.
+- Select a specific timestamp to restore.
+- Automatically switch bundlers if the selected backup type differs from your current one.
+
+#### 5. Post-Switch Cleanup
+After a successful switch or restore, `nsf` will prompt you to run `ns clean`. This is **highly recommended** to remove old build artifacts and prevent startup crashes on the device.
+
+### References
+
+- [NativeScript Configuration](https://docs.nativescript.org/configuration/nativescript)
+- [Vite Configuration in NativeScript](https://docs.nativescript.org/configuration/vite)
+- [Webpack Configuration in NativeScript](https://docs.nativescript.org/configuration/webpack)
 
 ---
 

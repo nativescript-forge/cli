@@ -12,6 +12,7 @@ import { infoCommand } from "./info";
 import { pluginCommand } from "./plugin";
 import { nativeCommand } from "./native";
 import { pmCommand } from "./pm";
+import { bundlerCommand } from "./bundler";
 import pkg from "../../package.json";
 
 export async function menuCommand() {
@@ -26,6 +27,11 @@ export async function menuCommand() {
         value: "build",
         label: pc.bold("Build"),
         hint: pc.dim("Build the project for Android/iOS"),
+      },
+      {
+        value: "bundler",
+        label: pc.bold("Bundler"),
+        hint: pc.dim("Switch between Webpack and Vite"),
       },
       {
         value: "create",
@@ -88,6 +94,9 @@ export async function menuCommand() {
   switch (command) {
     case "build":
       await buildCommand();
+      break;
+    case "bundler":
+      await bundlerCommand();
       break;
     case "create":
       await createCommand();

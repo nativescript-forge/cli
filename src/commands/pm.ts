@@ -10,6 +10,8 @@ import { spawn, exec } from "child_process";
 import pc from "picocolors";
 import { BG_FORGE_COLOR, UI_STRINGS } from "../utils/ui";
 import { setupProcessCleanup } from "../utils/process";
+import { readFileSync, writeFileSync, existsSync } from "fs";
+import path from "path";
 
 const checkPM = (pm: string): Promise<boolean> => {
   return new Promise((resolve) => {
@@ -192,6 +194,25 @@ export async function pmSetCommand(showIntro = true) {
             `Successfully set ${selectedPM} as default package manager!`,
           ),
         );
+
+        if (selectedPM === "pnpm") {
+          const npmrcPath = path.join(process.cwd(), ".npmrc");
+          const lineToAdd = "node-linker=hoisted";
+
+          if (existsSync(npmrcPath)) {
+            let content = readFileSync(npmrcPath, "utf-8");
+            if (!content.includes(lineToAdd)) {
+              content = content.endsWith("\n")
+                ? content + lineToAdd + "\n"
+                : content + "\n" + lineToAdd + "\n";
+              writeFileSync(npmrcPath, content);
+              console.log(pc.cyan(`  Added "${lineToAdd}" to existing .npmrc`));
+            }
+          } else {
+            writeFileSync(npmrcPath, lineToAdd + "\n");
+            console.log(pc.cyan(`  Created .npmrc with "${lineToAdd}"`));
+          }
+        }
       }
 
       if (showIntro) {
