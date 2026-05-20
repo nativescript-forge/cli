@@ -25,7 +25,11 @@ The `nsf build` command provides a guided process to build your NativeScript pro
 | **Enable HMR** | `--hmr` | Enables Hot Module Replacement. |
 | **Android App Bundle** | `--aab` | Builds/Deploys .aab for Android. |
 | **Force check** | `--force` | Skips compatibility checks and forces dependency installation. |
-| **Environment flags** | `--env.*` | Passes custom environment variables (aot, snapshot, uglify, etc.). |
+| **Enable AOT** | `--env.aot` | Creates Ahead-Of-Time build. |
+| **Enable Uglify** | `--env.uglify` | Basic obfuscation and smaller size. |
+| **Enable V8 Snapshot** | `--env.snapshot` | Creates a V8 Snapshot. |
+| **Enable CommonJS** | `--env.commonjs` | Forces CommonJS format (fixes ESM compatibility issues). |
+| **Other Environment flags...** | `--env.*` | Passes other custom environment variables. |
 
 ---
 
@@ -34,6 +38,7 @@ The `nsf build` command provides a guided process to build your NativeScript pro
 - `--env.snapshot`: Creates a V8 Snapshot (Android Release).
 - `--env.compileSnapshot`: Compiles static assets from snapshot into `.so`.
 - `--env.uglify`: Basic obfuscation and smaller size.
+- `--env.commonjs`: Forces CommonJS format (fixes ESM compatibility issues for legacy plugins).
 - `--env.report`: Creates Webpack report.
 - `--env.sourceMap`: Inline source maps.
 - `--env.hiddenSourceMap`: Source maps in root (Crashlytics).

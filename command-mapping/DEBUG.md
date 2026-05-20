@@ -24,7 +24,11 @@ The `nsf debug` command provides a guided process to debug your NativeScript pro
 | **Disable Watch** | `--no-watch` | Changes in your code will not be livesynced. |
 | **Clean build** | `--clean` | Forces rebuilding the native application. |
 | **Custom Timeout** | `--timeout <N>` | Seconds to wait for the debugger to boot (default 90). |
-| **Environment flags** | `--env.*` | Passes custom environment variables (aot, uglify, etc.). |
+| **Enable AOT** | `--env.aot` | Creates Ahead-Of-Time build. |
+| **Enable Uglify** | `--env.uglify` | Basic obfuscation and smaller size. |
+| **Enable V8 Snapshot** | `--env.snapshot` | Creates a V8 Snapshot. |
+| **Enable CommonJS** | `--env.commonjs` | Forces CommonJS format (fixes ESM compatibility issues). |
+| **Other Environment flags...** | `--env.*` | Passes other custom environment variables. |
 
 ---
 

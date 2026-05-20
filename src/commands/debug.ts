@@ -107,9 +107,29 @@ export async function debugCommand() {
         hint: "Wait time for debugger to boot (default 90s)",
       },
       {
+        value: "env.aot",
+        label: "Enable AOT",
+        hint: "Creates Ahead-Of-Time build",
+      },
+      {
+        value: "env.uglify",
+        label: "Enable Uglify",
+        hint: "Basic obfuscation and smaller size",
+      },
+      {
+        value: "env.snapshot",
+        label: "Enable V8 Snapshot",
+        hint: "Creates a V8 Snapshot",
+      },
+      {
+        value: "env.commonjs",
+        label: "Enable CommonJS",
+        hint: "Forces CommonJS format (fixes ESM issues)",
+      },
+      {
         value: "env",
-        label: "Environment flags",
-        hint: "Pass flags like --env.aot, --env.uglify, etc.",
+        label: "Other Environment flags...",
+        hint: "Enter other flags manually (e.g. report)",
       },
     ],
     required: false,
@@ -196,8 +216,8 @@ export async function debugCommand() {
       }
     } else if (option === "env") {
       const envInput = (await text({
-        message: "Enter Environment flags (comma separated):",
-        placeholder: "aot, snapshot, uglify, report",
+        message: "Enter other Environment flags (comma separated):",
+        placeholder: "report, hiddenSourceMap, etc.",
       })) as string;
 
       if (isCancel(envInput)) {

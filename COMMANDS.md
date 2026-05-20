@@ -102,15 +102,17 @@ Release build with full optimization and keystore signing.
   3. **Store Alias**: The alias for the key.
   4. **Alias Password**: The password for the key alias.
 - **Selection**:
+  - **Optional Environment Flags**: Select additional flags like `commonjs`, `aot`, `snapshot`.
   - **Output Type**: Choose between AAB (Android App Bundle) or APK.
   - **Output Destination**: (Optional) Specify where to copy the final build file.
 
 #### 2. DEVELOPMENT
 
-Debug build for testing purposes with uglify optimization.
+Debug build for testing purposes.
 
-- **Command**: `ns clean && ns build android --env.uglify [--aab|--apk] [--copy-to ...]`
+- **Command**: `ns clean && ns build android [--aab|--apk] [--copy-to ...]`
 - **Selection**:
+  - **Optional Environment Flags**: Select additional flags like `uglify`, `commonjs`, `aot`.
   - **Output Type**: Choose between AAB or APK.
   - **Output Destination**: (Optional) Specify where to copy the final build file.
 
@@ -118,7 +120,7 @@ Debug build for testing purposes with uglify optimization.
 
 Manually select build options as before.
 
-- Allows you to toggle individual flags like `--release`, `--justlaunch`, `--device`, `--hmr`, `--aab`, `--force`, and `--env.*`.
+- Allows you to toggle individual flags like `--release`, `--justlaunch`, `--device`, `--hmr`, `--aab`, `--force`, `--env.aot`, `--env.uglify`, `--env.snapshot`, `--env.commonjs`, and `--env.*`.
 
 ---
 

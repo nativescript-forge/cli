@@ -92,8 +92,38 @@ export async function buildCommand() {
   const args: string[] = ["build", platform as string];
 
   if (preset === "production" || preset === "development") {
-    // Common flags for presets
-    args.push("--env.uglify");
+    const isProd = preset === "production";
+
+    if (isProd) {
+      args.push("--env.uglify");
+    }
+
+    const envOptions = isProd
+      ? [
+          { value: "commonjs", label: "commonjs", hint: "Forces CommonJS format (fixes ESM issues)" },
+          { value: "aot", label: "aot", hint: "Creates Ahead-Of-Time build" },
+          { value: "snapshot", label: "snapshot", hint: "Creates a V8 Snapshot" },
+        ]
+      : [
+          { value: "uglify", label: "uglify", hint: "Basic obfuscation and smaller size" },
+          { value: "commonjs", label: "commonjs", hint: "Forces CommonJS format (fixes ESM issues)" },
+          { value: "aot", label: "aot", hint: "Creates Ahead-Of-Time build" },
+        ];
+
+    const optionalEnvFlags = (await multiselect({
+      message: "Select optional environment flags (Space to select, Enter to confirm):",
+      options: envOptions,
+      required: false,
+    })) as string[];
+
+    if (isCancel(optionalEnvFlags)) {
+      cancel(UI_STRINGS.cancel);
+      process.exit(0);
+    }
+
+    optionalEnvFlags.forEach((flag) => {
+      args.push(`--env.${flag}`);
+    });
 
     if (preset === "production") {
       args.push("--release");
@@ -211,9 +241,29 @@ export async function buildCommand() {
           hint: "Skips compatibility checks",
         },
         {
+          value: "env.aot",
+          label: "Enable AOT",
+          hint: "Creates Ahead-Of-Time build",
+        },
+        {
+          value: "env.uglify",
+          label: "Enable Uglify",
+          hint: "Basic obfuscation and smaller size",
+        },
+        {
+          value: "env.snapshot",
+          label: "Enable V8 Snapshot",
+          hint: "Creates a V8 Snapshot",
+        },
+        {
+          value: "env.commonjs",
+          label: "Enable CommonJS",
+          hint: "Forces CommonJS format (fixes ESM issues)",
+        },
+        {
           value: "env",
-          label: "Environment flags",
-          hint: "aot, snapshot, uglify, etc.",
+          label: "Other Environment flags...",
+          hint: "Enter other flags manually (e.g. report)",
         },
       ],
       required: false,
@@ -299,8 +349,8 @@ export async function buildCommand() {
         }
       } else if (option === "env") {
         const envInput = (await text({
-          message: "Enter Environment flags (comma separated):",
-          placeholder: "aot, snapshot, uglify, report",
+          message: "Enter other Environment flags (comma separated):",
+          placeholder: "report, hiddenSourceMap, etc.",
         })) as string;
 
         if (isCancel(envInput)) {

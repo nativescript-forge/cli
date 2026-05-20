@@ -25,7 +25,11 @@ The `nsf run` command provides an interactive way to run your NativeScript proje
 | **Disable HMR** | `--no-hmr` | Disables Hot Module Replacement. |
 | **Android App Bundle** | `--aab` | Builds/Deploys .aab for Android. |
 | **Force check** | `--force` | Skips compatibility checks. |
-| **Environment flags** | `--env.<flag>` | Passes custom environment variables. |
+| **Enable AOT** | `--env.aot` | Creates Ahead-Of-Time build. |
+| **Enable Uglify** | `--env.uglify` | Basic obfuscation and smaller size. |
+| **Enable V8 Snapshot** | `--env.snapshot` | Creates a V8 Snapshot. |
+| **Enable CommonJS** | `--env.commonjs` | Forces CommonJS format (fixes ESM compatibility issues). |
+| **Other Environment flags...** | `--env.*` | Passes other custom environment variables. |
 
 ---
 
