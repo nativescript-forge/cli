@@ -100,18 +100,35 @@ export async function buildCommand() {
 
     const envOptions = isProd
       ? [
-          { value: "commonjs", label: "commonjs", hint: "Forces CommonJS format (fixes ESM issues)" },
+          {
+            value: "commonjs",
+            label: "commonjs",
+            hint: "Forces CommonJS format (fixes ESM issues)",
+          },
           { value: "aot", label: "aot", hint: "Creates Ahead-Of-Time build" },
-          { value: "snapshot", label: "snapshot", hint: "Creates a V8 Snapshot" },
+          {
+            value: "snapshot",
+            label: "snapshot",
+            hint: "Creates a V8 Snapshot",
+          },
         ]
       : [
-          { value: "uglify", label: "uglify", hint: "Basic obfuscation and smaller size" },
-          { value: "commonjs", label: "commonjs", hint: "Forces CommonJS format (fixes ESM issues)" },
+          {
+            value: "uglify",
+            label: "uglify",
+            hint: "Basic obfuscation and smaller size",
+          },
+          {
+            value: "commonjs",
+            label: "commonjs",
+            hint: "Forces CommonJS format (fixes ESM issues)",
+          },
           { value: "aot", label: "aot", hint: "Creates Ahead-Of-Time build" },
         ];
 
     const optionalEnvFlags = (await multiselect({
-      message: "Select optional environment flags (Space to select, Enter to confirm):",
+      message:
+        "Select optional environment flags (Space to select, Enter to confirm):",
       options: envOptions,
       required: false,
     })) as string[];
