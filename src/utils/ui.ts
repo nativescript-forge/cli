@@ -14,4 +14,3 @@ export const UI_STRINGS = {
 export const WIZARD_LEGEND = pc.dim(
   `  ↑↓ navigate  ${pc.dim("•")}  Space select  ${pc.dim("•")}  Enter confirm  ${pc.dim("•")}  Ctrl+C cancel`,
 );
-

@@ -16,7 +16,7 @@ import { bundlerCommand } from "./bundler";
 import pkg from "../../package.json";
 
 export async function menuCommand() {
-  while (true) {
+  for (;;) {
     intro(
       `${BG_FORGE_COLOR(" NativeScript Forge ")} ${pc.dim(`v${pkg.version}`)}`,
     );
@@ -57,7 +57,9 @@ export async function menuCommand() {
         {
           value: "native",
           label: pc.bold("Native"),
-          hint: pc.dim("Manage platform language classes (Swift, Kotlin, etc.)"),
+          hint: pc.dim(
+            "Manage platform language classes (Swift, Kotlin, etc.)",
+          ),
         },
         {
           value: "plugin",

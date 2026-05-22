@@ -5,7 +5,6 @@ import {
   text,
   spinner,
   isCancel,
-  cancel,
   multiselect,
   note,
 } from "@clack/prompts";

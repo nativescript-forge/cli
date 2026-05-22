@@ -5,7 +5,6 @@ import {
   text,
   spinner,
   isCancel,
-  cancel,
   multiselect,
 } from "@clack/prompts";
 import { spawn, execSync } from "child_process";
@@ -72,14 +71,18 @@ export async function buildCommand() {
   let deviceId = "";
   let envInput = "";
 
-  while (true) {
+  for (;;) {
     switch (step) {
       case "platform": {
         platform = await select({
           message: "Select platform:",
           options: [
             { value: "android", label: "Android", hint: "Build for Android" },
-            { value: "__back__", label: "◀ Go Back", hint: "Return to main menu" },
+            {
+              value: "__back__",
+              label: "◀ Go Back",
+              hint: "Return to main menu",
+            },
           ],
           initialValue: (platform as string) || undefined,
         });
@@ -106,8 +109,16 @@ export async function buildCommand() {
               label: "DEVELOPMENT",
               hint: "Debug build for testing",
             },
-            { value: "custom", label: "CUSTOM", hint: "Select options manually" },
-            { value: "__back__", label: "◀ Go Back", hint: "Return to platform selection" },
+            {
+              value: "custom",
+              label: "CUSTOM",
+              hint: "Select options manually",
+            },
+            {
+              value: "__back__",
+              label: "◀ Go Back",
+              hint: "Return to platform selection",
+            },
           ],
           initialValue: (preset as string) || undefined,
         });
@@ -134,7 +145,11 @@ export async function buildCommand() {
                 label: "commonjs",
                 hint: "Forces CommonJS format (fixes ESM issues)",
               },
-              { value: "aot", label: "aot", hint: "Creates Ahead-Of-Time build" },
+              {
+                value: "aot",
+                label: "aot",
+                hint: "Creates Ahead-Of-Time build",
+              },
               {
                 value: "snapshot",
                 label: "snapshot",
@@ -152,7 +167,11 @@ export async function buildCommand() {
                 label: "commonjs",
                 hint: "Forces CommonJS format (fixes ESM issues)",
               },
-              { value: "aot", label: "aot", hint: "Creates Ahead-Of-Time build" },
+              {
+                value: "aot",
+                label: "aot",
+                hint: "Creates Ahead-Of-Time build",
+              },
             ];
 
         const res = await multiselect({
