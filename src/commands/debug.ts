@@ -65,12 +65,12 @@ export async function debugCommand() {
         hint: "Debug on Android devices/emulators",
       },
       { value: "ios", label: "iOS", hint: "Debug on iOS devices/simulators" },
+      { value: "__back__", label: "◀ Go Back", hint: "Return to main menu" },
     ],
   });
 
-  if (isCancel(platform)) {
-    cancel(UI_STRINGS.cancel);
-    process.exit(0);
+  if (isCancel(platform) || platform === "__back__") {
+    return "back";
   }
 
   const selectedOptions = (await multiselect({
@@ -136,8 +136,7 @@ export async function debugCommand() {
   })) as string[];
 
   if (isCancel(selectedOptions)) {
-    cancel(UI_STRINGS.cancel);
-    process.exit(0);
+    return "back";
   }
 
   const args: string[] = ["debug", platform as string];
@@ -181,8 +180,7 @@ export async function debugCommand() {
         })) as string;
 
         if (isCancel(deviceId)) {
-          cancel(UI_STRINGS.cancel);
-          process.exit(0);
+          return "back";
         }
 
         if (deviceId === "retry") {
@@ -202,8 +200,7 @@ export async function debugCommand() {
           })) as string;
 
           if (isCancel(deviceId)) {
-            cancel(UI_STRINGS.cancel);
-            process.exit(0);
+            return "back";
           }
           stayInDeviceSelection = false;
         } else {
@@ -221,8 +218,7 @@ export async function debugCommand() {
       })) as string;
 
       if (isCancel(envInput)) {
-        cancel(UI_STRINGS.cancel);
-        process.exit(0);
+        return "back";
       }
 
       if (envInput.trim()) {
@@ -241,8 +237,7 @@ export async function debugCommand() {
       })) as string;
 
       if (isCancel(timeoutVal)) {
-        cancel(UI_STRINGS.cancel);
-        process.exit(0);
+        return "back";
       }
       if (timeoutVal) {
         args.push("--timeout", timeoutVal);

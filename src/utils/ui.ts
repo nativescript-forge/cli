@@ -10,3 +10,8 @@ export const UI_STRINGS = {
   cancel: "Operation cancelled.",
   error: (msg: string) => pc.red(`Error: ${msg}`),
 };
+
+export const WIZARD_LEGEND = pc.dim(
+  `  ↑↓ navigate  ${pc.dim("•")}  Space select  ${pc.dim("•")}  Enter confirm  ${pc.dim("•")}  Ctrl+C cancel`,
+);
+

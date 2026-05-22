@@ -23,6 +23,18 @@ Detailed documentation for all NativeScript Forge CLI (`nsf`) commands.
 
 ---
 
+## CLI Navigation Guide
+
+The NativeScript Forge CLI is fully interactive. Across all commands, use the following controls to navigate:
+
+- **Arrow Keys (↑/↓)**: Navigate through options in a list.
+- **Space**: Select or unselect options in multiselect (checkbox) menus.
+- **Enter**: Confirm your selection and proceed.
+- **◀ Go Back**: Select this option in menus to return to the previous step or back to the main menu.
+- **Ctrl+C**: Cancel the current operation or exit the CLI safely.
+
+---
+
 ## nsf menu
 
 The main interactive entry point for NativeScript Forge. It allows you to select and execute any available command from a visual list.
@@ -379,12 +391,7 @@ nsf run
 - **iOS**: Run on iOS devices or simulators.
 - **VisionOS**: Run on VisionOS simulators.
 
-> [!TIP]
-> **Navigation Tips:**
->
-> - Use **Arrow Keys** to navigate.
-> - Press **Space** to select/unselect options in multiselect.
-> - Press **Enter** to confirm your selection.
+
 
 #### Interactive Options
 

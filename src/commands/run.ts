@@ -70,12 +70,12 @@ export async function runCommand() {
         label: "VisionOS",
         hint: "Run on VisionOS simulators",
       },
+      { value: "__back__", label: "◀ Go Back", hint: "Return to main menu" },
     ],
   });
 
-  if (isCancel(platform)) {
-    cancel(UI_STRINGS.cancel);
-    process.exit(0);
+  if (isCancel(platform) || platform === "__back__") {
+    return "back";
   }
 
   const selectedOptions = (await multiselect({
@@ -141,8 +141,7 @@ export async function runCommand() {
   })) as string[];
 
   if (isCancel(selectedOptions)) {
-    cancel(UI_STRINGS.cancel);
-    process.exit(0);
+    return "back";
   }
 
   const args: string[] = ["run", platform as string];
@@ -186,8 +185,7 @@ export async function runCommand() {
         })) as string;
 
         if (isCancel(deviceId)) {
-          cancel(UI_STRINGS.cancel);
-          process.exit(0);
+          return "back";
         }
 
         if (deviceId === "retry") {
@@ -207,8 +205,7 @@ export async function runCommand() {
           })) as string;
 
           if (isCancel(deviceId)) {
-            cancel(UI_STRINGS.cancel);
-            process.exit(0);
+            return "back";
           }
           stayInDeviceSelection = false;
         } else {
@@ -226,8 +223,7 @@ export async function runCommand() {
       })) as string;
 
       if (isCancel(envInput)) {
-        cancel(UI_STRINGS.cancel);
-        process.exit(0);
+        return "back";
       }
 
       if (envInput.trim()) {

@@ -29,6 +29,17 @@ You can use the `nsf` command followed by any supported NativeScript action.
 - **Direct Command**: Run `nsf <command>` (e.g., `nsf create`, `nsf run`) to jump directly into a specific task.
 - **Help**: Run `nsf` without arguments to see the standard help information.
 
+## Navigation Guide
+
+The NativeScript Forge CLI is fully interactive. Across all commands, use the following controls to navigate:
+
+- **Arrow Keys (↑/↓)**: Navigate through options in a list.
+- **Space**: Select or unselect options in multiselect (checkbox) menus.
+- **Enter**: Confirm your selection and proceed.
+- **◀ Go Back**: Select this option in menus to return to the previous step or back to the main menu.
+- **Ctrl+C**: Cancel the current operation or exit the CLI safely.
+
+
 ## Documentation
 
 For detailed command descriptions, options, and advanced usage, see: **[Full Commands Documentation](COMMANDS.md)**
