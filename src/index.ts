@@ -13,6 +13,9 @@ import { menuCommand } from "./commands/menu";
 import { debugCommand } from "./commands/debug";
 import { pmCommand, pmGetCommand, pmSetCommand } from "./commands/pm";
 import { bundlerCommand } from "./commands/bundler";
+import { updateCommand } from "./commands/update";
+import { migrateCommand } from "./commands/migrate";
+import { cleanCommand } from "./commands/clean";
 import pc from "picocolors";
 import { spawn } from "child_process";
 import { setupProcessCleanup } from "./utils/process";
@@ -142,6 +145,29 @@ pm.command("set")
   .description("Set the default package manager with interactive selection")
   .action(async () => {
     await pmSetCommand();
+  });
+
+program
+  .command("clean")
+  .description("Clean the project directories (platforms, hooks, node_modules)")
+  .action(async () => {
+    await cleanCommand();
+  });
+
+program
+  .command("update")
+  .description("Update the project dependencies, runtimes, and core modules")
+  .action(async () => {
+    await updateCommand();
+  });
+
+program
+  .command("migrate")
+  .description(
+    "Migrate the project configurations to match the installed NativeScript CLI",
+  )
+  .action(async () => {
+    await migrateCommand();
   });
 
 program

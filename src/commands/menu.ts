@@ -13,6 +13,9 @@ import { pluginCommand } from "./plugin";
 import { nativeCommand } from "./native";
 import { pmCommand } from "./pm";
 import { bundlerCommand } from "./bundler";
+import { updateCommand } from "./update";
+import { migrateCommand } from "./migrate";
+import { cleanCommand } from "./clean";
 import pkg from "../../package.json";
 
 export async function menuCommand() {
@@ -35,6 +38,11 @@ export async function menuCommand() {
           hint: pc.dim("Switch between Webpack and Vite"),
         },
         {
+          value: "clean",
+          label: pc.bold("Clean"),
+          hint: pc.dim("Clean the project directories"),
+        },
+        {
           value: "create",
           label: pc.bold("Create"),
           hint: pc.dim("Create a new NativeScript project"),
@@ -53,6 +61,11 @@ export async function menuCommand() {
           value: "info",
           label: pc.bold("Info"),
           hint: pc.dim("System and environment information"),
+        },
+        {
+          value: "migrate",
+          label: pc.bold("Migrate"),
+          hint: pc.dim("Migrate project configurations"),
         },
         {
           value: "native",
@@ -86,6 +99,11 @@ export async function menuCommand() {
           label: pc.bold("Run"),
           hint: pc.dim("Run the project on a device/emulator"),
         },
+        {
+          value: "update",
+          label: pc.bold("Update"),
+          hint: pc.dim("Update project dependencies"),
+        },
       ],
     });
 
@@ -102,6 +120,9 @@ export async function menuCommand() {
       case "bundler":
         result = await bundlerCommand();
         break;
+      case "clean":
+        result = await cleanCommand();
+        break;
       case "create":
         result = await createCommand();
         break;
@@ -113,6 +134,9 @@ export async function menuCommand() {
         break;
       case "info":
         result = await infoCommand();
+        break;
+      case "migrate":
+        result = await migrateCommand();
         break;
       case "native":
         result = await nativeCommand();
@@ -131,6 +155,9 @@ export async function menuCommand() {
         break;
       case "run":
         result = await runCommand();
+        break;
+      case "update":
+        result = await updateCommand();
         break;
     }
 
