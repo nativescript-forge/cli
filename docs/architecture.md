@@ -70,3 +70,7 @@ To ensure an elegant look and feel, `nsf` configures console colors and custom a
 - **Theme Engine (`src/utils/theme.ts`)**: Sets consistent theme styling markers.
 - **Picocolors (`picocolors`)**: Colors help text, warning alerts, and progress states.
 - **ASCII Art**: Renders a large branding banner upon execution of the help or menu pages.
+
+## Agent Skill Installation
+
+`nsf skill` is independent of NativeScript CLI. It opens List/Guide followed by curated collection selection. List shows purpose, capabilities, repository details, and confirmation before launching the interactive skills installer. Guide shows collection-specific usage and examples without starting an installer. Both views use metadata from `src/utils/skill-sources.ts`; only curated source IDs are accepted. Upstream handles skill discovery, agent selection, scope, installation method, and writes. Terminal input/output is inherited; shared cleanup handles Ctrl+C. See [SKILL mapping](../command-mapping/SKILL.md).

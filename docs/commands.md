@@ -148,3 +148,15 @@ Manage target platforms interactively.
 * **Execution**: Command preview, progress spinner, output, exit code propagation, and Ctrl+C cleanup.
 * **Advanced options**: Use `ns` directly for `--framework-path`.
 * **Mapping**: [PLATFORM.md](../command-mapping/PLATFORM.md).
+
+### 14. `nsf skill` (alias `skills`)
+Browse and install curated skill collections, or learn how to use each one.
+* **Menu**: Skills > List / Guide > Official Skills / nStudio Skills.
+* **List**: Shows collection purpose, capabilities, GitHub URL, README link, and installation confirmation. Yes launches the interactive installer; No returns to the list without running it.
+* **Guide**: Shows usage steps and example prompts tailored to the selected collection, then returns to guide selection. Does not install anything.
+* **Direct commands**: `nsf skill list`, `nsf skill install [source]`, `nsf skill guide [source]`. Sources are curated IDs (`official`, `nstudio`); arbitrary GitHub repositories are not accepted. Direct `guide <source>` displays its guide and exits.
+* **Navigation**: Go Back from collection selection returns to List/Guide, then to the main menu when launched there. Ctrl+C cancels; installer navigation follows its own UI.
+* **Runner**: `npx --yes skills@latest add <curated-repository>` with inherited terminal input/output. npx approval does not skip installer prompts for skills, agents, scope, method, and final confirmation.
+* **Requirements**: npm/npx, Git, internet access, and Node.js supported by the latest skills CLI (currently 22.20+). NativeScript CLI is not required.
+* **Extension**: Add curated entries with capabilities and example prompts to `src/utils/skill-sources.ts`; both submenus and their details use this metadata.
+* **Mapping and research**: [SKILL.md](../command-mapping/SKILL.md).

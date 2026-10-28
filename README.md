@@ -31,6 +31,8 @@ You can use the `nsf` command followed by any supported NativeScript action.
 
 Manage target platforms with `nsf platform` (also available as **Platform** in `nsf menu`): choose List, Add, Remove, Update, or Clean, then select a platform. Use `nsf platform list` to list targets directly.
 
+Manage agent skills with `nsf skill` (alias `nsf skills`), or choose **Skills** in `nsf menu`. **List** opens Official/nStudio collections with details and installation confirmation; **Guide** opens collection-specific usage steps and examples. Direct commands include `nsf skill list`, `nsf skill install official`, and `nsf skill guide nstudio`. See [skill usage and requirements](COMMANDS.md#nsf-skill).
+
 ## Navigation Guide
 
 The NativeScript Forge CLI is fully interactive. Across all commands, use the following controls to navigate:

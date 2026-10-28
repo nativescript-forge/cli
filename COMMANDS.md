@@ -17,6 +17,7 @@ Detailed documentation for all NativeScript Forge CLI (`nsf`) commands.
 - [nsf native](#nsf-native)
 - [nsf doctor](#nsf-doctor)
 - [nsf info](#nsf-info)
+- [nsf skill](#nsf-skill)
 - [nsf platform](#nsf-platform)
 - [nsf pm](#nsf-pm)
 - [nsf bundler](#nsf-bundler)
@@ -271,6 +272,75 @@ Display information about the current environment.
 ```bash
 nsf info
 ```
+
+---
+
+## nsf skill
+
+Browse curated agent skill collections, install selected skills, or read a guide for each collection. This Forge command does not require NativeScript CLI.
+
+### Usage
+
+```bash
+nsf skill                       # List / Guide menu (alias: nsf skills)
+nsf skill list                  # Open the installable collection list
+nsf skill install               # Same list, shortcut for installation
+nsf skill install official      # Official details and installation confirmation
+nsf skill install nstudio       # nStudio details and installation confirmation
+nsf skill guide                 # Choose a collection guide
+nsf skill guide official        # Read Official usage and example prompts
+nsf skill guide nstudio         # Read nStudio usage and example prompts
+```
+
+### Interactive Flow
+
+```text
+Skills
+  List
+    Official Skills -> details -> confirm installation
+    nStudio Skills  -> details -> confirm installation
+  Guide
+    Official Skills -> usage steps and Official-specific examples
+    nStudio Skills  -> usage steps and nStudio-specific examples
+```
+
+**List** browses installable collections, not installed skills. Selecting a collection displays its purpose, capabilities, GitHub URL, README link, and what happens after confirmation. **No** returns to List without starting an installer. **Yes** launches the shared skills installer, where you choose individual skills, agents, project/global scope, and installation method as applicable before its final confirmation.
+
+**Guide** is read-only. Select a collection to see how to use it and its own example prompts, then return to guide selection. Go Back from either collection submenu returns to List/Guide; Go Back at that menu returns to the main menu when launched there. Ctrl+C cancels. Direct `guide <source>` displays the chosen guide and exits.
+
+### Collections
+
+| ID | Collection | Focus | GitHub |
+| :--- | :--- | :--- | :--- |
+| `official` | Official Skills | Core APIs, native UI, runtime behavior, tests, and tooling | [NativeScript/skills](https://github.com/NativeScript/skills) |
+| `nstudio` | nStudio Skills | Native integrations, custom rendering, interop, UI recipes, and tooling | [nstudio/nativescript-agent-skills](https://github.com/nstudio/nativescript-agent-skills) |
+
+These are collections of multiple skills. The installer discovers current individual skills and agents; Forge does not maintain a full static inventory. Names can overlap between sources; review the installer summary before proceeding.
+
+### Using Installed Skills
+
+Install the relevant individual skills for your coding agent, then open the project in that agent. Describe the task and provide code, configuration, or error messages. Agents that support skill discovery can match installed skills by their descriptions; you can also mention an installed skill by name. Start a new agent session if newly installed skills are not discovered, and check the agent and installation scope.
+
+Example prompts in your coding agent (not terminal commands):
+
+- **Official**: ?Use the installed ns-http-gotchas skill to diagnose why my NativeScript HTTP request treats a 404 response as success. Here is the code: <code>.?
+- **Official**: ?Use the installed ns-unit-testing skill to help set up tests for this NativeScript project. Here is my current configuration: <config>.?
+- **nStudio**: ?Use the installed ns-ios-scenekit-from-typescript skill to build a 3D view in this NativeScript iOS project. My goal is: <scene description>.?
+- **nStudio**: ?Use the installed ns-android-java-interop-gotchas skill to diagnose this Android Java interop error: <error and relevant code>.?
+
+The examples require the named skills to be installed. Skills guide the coding agent; they are not runtime plugins. Project skills apply to the installation project; global skills apply across projects for the selected agents. Follow each repository README for current skill availability.
+
+### Installation and Requirements
+
+Forge runs `npx --yes skills@latest add <curated-repository>` with inherited terminal input/output. The `--yes` belongs to npx and permits obtaining the runner; it does not skip skill installer selections or confirmation. Project installs use the current directory; global and agent-specific destinations are managed upstream.
+
+Requires npm/npx, Git, internet access, and Node.js supported by the latest [skills CLI](https://github.com/vercel-labs/skills) (currently 22.20+). Failures preserve nonzero exit codes; shared Ctrl+C cleanup terminates the child. The command accepts only curated source IDs, not arbitrary repositories or installer flags.
+
+### Adding Curated Collections
+
+Add an entry to `SKILL_SOURCES` in `src/utils/skill-sources.ts` with a unique lowercase `id` (reserve `__` prefixes for navigation), `label`, GitHub `repository`, `description`, `capabilities`, and `examples`. List, confirmation details, and Guide all use this metadata. No command handler changes are needed.
+
+See [SKILL command mapping](command-mapping/SKILL.md).
 
 ---
 

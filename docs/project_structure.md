@@ -70,8 +70,11 @@ nativescript-forge-cli/
 
 - **`src/commands/platform.ts`**: Manages project targets through operation, platform, and runtime selections; available through direct subcommands and the main menu.
 
+- **`src/commands/skill.ts`**: List/Guide menus, curated collection details, installation confirmation, provider-specific examples, and installer handoff.
+
 - **`src/utils/`**:
   Reusable utility functions.
+  - **`skill-sources.ts`**: Curated skill collections, capabilities, example prompts, and ID lookup shared by List and Guide.
   - **[`constants.ts`](file:///c:/Users/dyazi/DataDisk/projects/kang-cahya/github/nsforge-cli/src/utils/constants.ts)**: Holds the structural maps for Mobile and VisionOS platforms, flavors (Vue, Svelte, React, Angular, TS, JS), and their official template URLs.
   - **[`process.ts`](file:///c:/Users/dyazi/DataDisk/projects/kang-cahya/github/nsforge-cli/src/utils/process.ts)**: Safely spawns background child processes, listens to termination events, and cleans up zombie processes.
   - **[`theme.ts`](file:///c:/Users/dyazi/DataDisk/projects/kang-cahya/github/nsforge-cli/src/utils/theme.ts)** & **[`ui.ts`](file:///c:/Users/dyazi/DataDisk/projects/kang-cahya/github/nsforge-cli/src/utils/ui.ts)**: Set the coloring rules, prompt indicators, and custom formats to offer an elegant terminal user interface.

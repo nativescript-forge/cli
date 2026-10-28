@@ -17,6 +17,7 @@ import { updateCommand } from "./commands/update";
 import { migrateCommand } from "./commands/migrate";
 import { cleanCommand } from "./commands/clean";
 import { platformCommand, platformListCommand } from "./commands/platform";
+import { skillCommand, skillGuideCommand } from "./commands/skill";
 import pc from "picocolors";
 import { spawn } from "child_process";
 import { setupProcessCleanup } from "./utils/process";
@@ -151,6 +152,37 @@ for (const action of ["add", "remove", "update", "clean"] as const) {
       await platformCommand(action, target);
     });
 }
+
+const skill = program
+  .command("skill")
+  .alias("skills")
+  .description(
+    "Browse and install curated agent skills, or read their usage guides",
+  )
+  .action(async () => {
+    await skillCommand();
+  });
+
+skill
+  .command("install [source]")
+  .description("Browse skill collections and confirm installation")
+  .action(async (source?: string) => {
+    await skillCommand("list", source);
+  });
+
+skill
+  .command("guide [source]")
+  .description("Learn how to use installed skills with example agent prompts")
+  .action(async (source?: string) => {
+    await skillGuideCommand(source);
+  });
+
+skill
+  .command("list")
+  .description("Browse skill collection details and confirm installation")
+  .action(async () => {
+    await skillCommand("list");
+  });
 
 const pm = program
   .command("pm")

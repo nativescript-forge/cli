@@ -17,6 +17,7 @@ import { updateCommand } from "./update";
 import { migrateCommand } from "./migrate";
 import { cleanCommand } from "./clean";
 import { platformCommand } from "./platform";
+import { skillCommand } from "./skill";
 import pkg from "../../package.json";
 
 export async function menuCommand() {
@@ -108,6 +109,11 @@ export async function menuCommand() {
           hint: pc.dim("Run the project on a device/emulator"),
         },
         {
+          value: "skill",
+          label: pc.bold("Skills"),
+          hint: pc.dim("Browse agent skills, install, or read usage guides"),
+        },
+        {
           value: "update",
           label: pc.bold("Update"),
           hint: pc.dim("Update project dependencies"),
@@ -169,6 +175,9 @@ export async function menuCommand() {
         break;
       case "update":
         result = await updateCommand();
+        break;
+      case "skill":
+        result = await skillCommand();
         break;
     }
 

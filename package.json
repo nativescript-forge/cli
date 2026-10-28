@@ -1,6 +1,6 @@
 {
   "name": "@nativescript-forge/cli",
-  "version": "1.0.17",
+  "version": "1.0.18",
   "description": "NativeScript Forge in your terminal, an opinionated interactive wrapper around the NativeScript CLI",
   "main": "dist/index.js",
   "files": [

@@ -74,7 +74,7 @@ To maintain a clean and consistent code style, we use `eslint` and `prettier`.
 
 ## Automated Command Tests
 
-Run `npm test` to verify platform operation and target selection, runtime versions, back navigation, cancellation, argument validation, and child-process failure handling. The tests use mocked prompts and processes, so they do not modify a NativeScript project or require a working mobile SDK.
+Run `npm test` to verify skill collection selection, installation confirmation and refusal, usage guide and return navigation, curated ID validation, extensibility, installer handoff, back navigation, cancellation, and process failures, alongside platform operation and target selection, runtime versions, back navigation, cancellation, argument validation, and child-process failure handling. The tests use mocked prompts and processes, so they do not modify a NativeScript project or require a working mobile SDK.
 
 ## 5. Local CLI Testing (Linking)
 
