@@ -17,6 +17,7 @@ Detailed documentation for all NativeScript Forge CLI (`nsf`) commands.
 - [nsf native](#nsf-native)
 - [nsf doctor](#nsf-doctor)
 - [nsf info](#nsf-info)
+- [nsf platform](#nsf-platform)
 - [nsf pm](#nsf-pm)
 - [nsf bundler](#nsf-bundler)
 - [Development Commands (Run & Debug)](#development-commands-run--debug)
@@ -270,6 +271,46 @@ Display information about the current environment.
 ```bash
 nsf info
 ```
+
+---
+
+## nsf platform
+
+Manage project target platforms through an interactive menu.
+
+### Usage
+
+```bash
+nsf platform
+# Or select Platform in nsf menu
+```
+
+### Interactive Flow
+
+1. **Operation**: Select **List**, **Add**, **Remove**, **Update**, or **Clean**.
+2. **Platform**: For all operations except List, select **Android**, **iOS**, or **VisionOS**.
+3. **Runtime**: Add and Update offer **Latest Stable**, **Next Release**, or **Specific Version**.
+4. **Execute**: Displays the NativeScript command, progress spinner, and command output.
+
+Use **Go Back** to return from runtime selection to platform selection, from platform selection to operations, or from operations to the main menu. Ctrl+C cancels safely.
+
+### Direct Subcommands
+
+| Command | NativeScript mapping |
+| :--- | :--- |
+| `nsf platform list` | `ns platform list` |
+| `nsf platform add [platform]` | `ns platform add <platform>` |
+| `nsf platform remove [platform]` | `ns platform remove <platform>` |
+| `nsf platform update [platform]` | `ns platform update <platform>` |
+| `nsf platform clean [platform]` | `ns platform clean <platform>` |
+
+Omit the platform to choose it interactively. Supply it to execute directly, for example `nsf platform add android` or `nsf platform update ios@9.0.0`. Only Add and Update accept an optional `@version` or `@next`.
+
+Run from a NativeScript project with the NativeScript CLI installed. Apple development requires macOS; VisionOS requires a compatible CLI/runtime. NativeScript validates platform availability and environment requirements.
+
+Remove deletes the generated platform directory and uninstalls its runtime. Platform Clean removes and reinstalls the selected platform; CLI 9.1.1 reuses the detected runtime version. This differs from `nsf clean`, which cleans project directories more broadly. Failures preserve a nonzero exit code.
+
+See [PLATFORM command mapping](command-mapping/PLATFORM.md). The interactive wrapper currently exposes runtime version selection; advanced options such as `--framework-path` can be used directly with `ns`.
 
 ---
 

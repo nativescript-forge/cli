@@ -16,6 +16,7 @@ import { bundlerCommand } from "./commands/bundler";
 import { updateCommand } from "./commands/update";
 import { migrateCommand } from "./commands/migrate";
 import { cleanCommand } from "./commands/clean";
+import { platformCommand, platformListCommand } from "./commands/platform";
 import pc from "picocolors";
 import { spawn } from "child_process";
 import { setupProcessCleanup } from "./utils/process";
@@ -127,6 +128,29 @@ program
   .action(async () => {
     await bundlerCommand();
   });
+
+const platform = program
+  .command("platform")
+  .description("Manage target platforms (list, add, remove, update, clean)")
+  .action(async () => {
+    await platformCommand();
+  });
+
+platform
+  .command("list")
+  .description("List the platforms currently targeted by the project")
+  .action(async () => {
+    await platformListCommand();
+  });
+
+for (const action of ["add", "remove", "update", "clean"] as const) {
+  platform
+    .command(`${action} [platform]`)
+    .description(`${action} a project target platform`)
+    .action(async (target?: string) => {
+      await platformCommand(action, target);
+    });
+}
 
 const pm = program
   .command("pm")

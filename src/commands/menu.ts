@@ -16,6 +16,7 @@ import { bundlerCommand } from "./bundler";
 import { updateCommand } from "./update";
 import { migrateCommand } from "./migrate";
 import { cleanCommand } from "./clean";
+import { platformCommand } from "./platform";
 import pkg from "../../package.json";
 
 export async function menuCommand() {
@@ -72,6 +73,13 @@ export async function menuCommand() {
           label: pc.bold("Native"),
           hint: pc.dim(
             "Manage platform language classes (Swift, Kotlin, etc.)",
+          ),
+        },
+        {
+          value: "platform",
+          label: pc.bold("Platform"),
+          hint: pc.dim(
+            "Manage target platforms (list, add, remove, update, clean)",
           ),
         },
         {
@@ -146,6 +154,9 @@ export async function menuCommand() {
         break;
       case "plugin":
         result = await pluginCommand();
+        break;
+      case "platform":
+        result = await platformCommand();
         break;
       case "proxy":
         result = await proxyCommand();

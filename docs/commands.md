@@ -134,3 +134,17 @@ Migrates project configuration files and dependencies to match the installed Nat
     2.  Prompts for confirmation to proceed.
     3.  Runs `ns migrate` with a progress spinner.
 *   **Post-Migration Action**: Prompts you to run `ns clean` to clean up cached build resources.
+
+### 13. `nsf platform`
+Manage target platforms interactively.
+* **Usage**: `nsf platform`, or select **Platform** from `nsf menu`.
+* **Flow**: List/Add/Remove/Update/Clean ? Android/iOS/VisionOS (except List) ? Latest Stable/Next Release/Specific Version (Add/Update only).
+* **Navigation**: Go Back returns to the previous selection; from operations it returns to the main menu. Ctrl+C cancels.
+* **Direct commands**: `nsf platform list`, `nsf platform add [platform]`, `nsf platform remove [platform]`, `nsf platform update [platform]`, `nsf platform clean [platform]`. Omitted platforms trigger selection; supplied targets execute directly.
+* **Versions**: Add/Update support `android@<version>`, `ios@<version>`, or `visionos@<version>`.
+* **Requirements**: NativeScript CLI and project directory; Apple development requires macOS. VisionOS needs compatible CLI/runtime support.
+* **Remove**: Deletes the platform directory and uninstalls its runtime.
+* **Platform Clean**: Reinstalls the selected platform; CLI 9.1.1 reuses the detected version. Distinct from project-wide `nsf clean`.
+* **Execution**: Command preview, progress spinner, output, exit code propagation, and Ctrl+C cleanup.
+* **Advanced options**: Use `ns` directly for `--framework-path`.
+* **Mapping**: [PLATFORM.md](../command-mapping/PLATFORM.md).

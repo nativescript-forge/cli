@@ -29,6 +29,8 @@ You can use the `nsf` command followed by any supported NativeScript action.
 - **Direct Command**: Run `nsf <command>` (e.g., `nsf create`, `nsf run`) to jump directly into a specific task.
 - **Help**: Run `nsf` without arguments to see the standard help information.
 
+Manage target platforms with `nsf platform` (also available as **Platform** in `nsf menu`): choose List, Add, Remove, Update, or Clean, then select a platform. Use `nsf platform list` to list targets directly.
+
 ## Navigation Guide
 
 The NativeScript Forge CLI is fully interactive. Across all commands, use the following controls to navigate:

@@ -21,10 +21,12 @@ program.on("command:*", (operands) => {
 
 *   **Workflow**:
     1.  If you type `nsf run`, it executes the custom interactive builder in `src/commands/run.ts`.
-    2.  If you type `nsf platform add android` (which is not a registered `nsf` command), `commander` catches it under `command:*`.
-    3.  `nsf` immediately spawns a child process invoking `ns platform add android`, passing the input/output directly back to your terminal window.
+    2.  If you type `nsf devices` (which is not a registered `nsf` command), `commander` catches it under `command:*`.
+    3.  `nsf` immediately spawns a child process invoking `ns devices`, passing the input/output directly back to your terminal window.
 
 ---
+
+The registered `platform` command uses its own interactive handler: operation selection, platform selection (except List), and runtime version selection (Add/Update). Direct subcommands such as `nsf platform add android` also use this handler rather than the wildcard fallback. See [PLATFORM mapping](../command-mapping/PLATFORM.md).
 
 ## 2. Smart Config Backup & Sync System
 

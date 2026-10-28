@@ -68,6 +68,8 @@ nativescript-forge-cli/
   - **[`resources.ts`](file:///c:/Users/dyazi/DataDisk/projects/kang-cahya/github/nsforge-cli/src/commands/resources.ts)**: Automated generator for icons and splash screens.
   - **[`run.ts`](file:///c:/Users/dyazi/DataDisk/projects/kang-cahya/github/nsforge-cli/src/commands/run.ts)**: Guides the process of deploying the app to connected simulators or physical devices.
 
+- **`src/commands/platform.ts`**: Manages project targets through operation, platform, and runtime selections; available through direct subcommands and the main menu.
+
 - **`src/utils/`**:
   Reusable utility functions.
   - **[`constants.ts`](file:///c:/Users/dyazi/DataDisk/projects/kang-cahya/github/nsforge-cli/src/utils/constants.ts)**: Holds the structural maps for Mobile and VisionOS platforms, flavors (Vue, Svelte, React, Angular, TS, JS), and their official template URLs.
